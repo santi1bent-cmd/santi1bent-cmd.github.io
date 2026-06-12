@@ -757,8 +757,8 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .nav-logo {
-    display: none;
+  .nav-logo-img {
+    height: 48px;
   }
 
   .hero-title {
