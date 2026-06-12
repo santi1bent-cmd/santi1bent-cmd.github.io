@@ -532,6 +532,16 @@ nav {
   font-style: italic;
 }
 
+.writings-coming-soon {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 2.5rem;
+}
+
 .research-links {
   display: flex;
   gap: 1.5rem;
