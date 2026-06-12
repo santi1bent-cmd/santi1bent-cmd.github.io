@@ -757,8 +757,24 @@ footer {
 }
 
 @media (max-width: 480px) {
+  nav {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    height: auto;
+    padding: 1rem 1.5rem;
+  }
+
   .nav-logo-img {
-    height: 48px;
+    height: 80px;
+  }
+
+  .nav-links {
+    gap: 1.25rem;
+  }
+
+  .page {
+    padding-top: 10rem;
   }
 
   .hero-title {
