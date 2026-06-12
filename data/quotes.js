@@ -869,4 +869,30 @@ const QUOTES = [
     author: "Joseph Goldstein"
   },
 
+  {
+    text: "Snow was falling,\nso much like stars\nfilling the dark trees\nthat one could easily imagine\nits reason for being was nothing more\nthan prettiness.",
+    author: "Mary Oliver"
+  },
+
+  {
+    text: "And after a long time the boy came back again.\n'I am sorry, Boy,' said the tree, 'but I have nothing left to give you —\nmy apples are gone.'\n'My teeth are too weak for apples,' said the boy.\n'My branches are gone,' said the tree. 'You cannot swing on them.'\n'I am too old to swing on branches,' said the boy.\n'My trunk is gone,' said the tree. 'You cannot climb.'\n'I am too tired to climb,' said the boy.\n'I am sorry,' sighed the tree. 'I wish that I could give you something… but I have nothing left. I am an old stump. I am sorry.'\n'I don't need very much now,' said the boy. 'Just a quiet place to sit and rest. I am very tired.'\n'Well,' said the tree, straightening herself up as much as she could, 'well, an old stump is good for sitting and resting. Come, Boy, sit down. Sit down and rest.'\nAnd the boy did.\nAnd the tree was happy.",
+    author: "Shel Silverstein",
+    source: "The Giving Tree"
+  },
+
+  {
+    text: "There are two means of refuge from the misery of life — music and cats.",
+    author: "Albert Schweitzer"
+  },
+
+  {
+    text: "Never look down on anybody unless you're helping him up.",
+    author: "Jesse Jackson"
+  },
+
+  {
+    text: "A man must be willing to die for justice. Death is an inescapable reality and men die daily, but good deeds live forever.",
+    author: "Jesse Jackson"
+  },
+
 ];
