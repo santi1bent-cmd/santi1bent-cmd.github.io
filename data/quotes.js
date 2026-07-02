@@ -870,6 +870,11 @@ const QUOTES = [
   },
 
   {
+    text: "The most intelligent men, like the strongest, find their happiness where others would find only disaster: in the labyrinth, in being hard with themselves and with others, in effort; their delight is in self-mastery; in them asceticism becomes second nature, a necessity, an instinct. They regard a difficult task as a privilege; it is to them a recreation to play with burdens that would crush all others.",
+    author: "Friedrich Nietzsche"
+  },
+
+  {
     text: "Snow was falling,\nso much like stars\nfilling the dark trees\nthat one could easily imagine\nits reason for being was nothing more\nthan prettiness.",
     author: "Mary Oliver"
   },
