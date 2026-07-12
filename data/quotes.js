@@ -370,10 +370,6 @@ const QUOTES = [
     author: "Marcus Aurelius"
   },
   {
-    text: "The whole earth a point in space — and most of it uninhabited.",
-    author: "Marcus Aurelius"
-  },
-  {
     text: "The art of living is more like wrestling than dancing, in so far as it stands ready against the accidental and the unforeseen, and is not apt to fall.",
     author: "Marcus Aurelius"
   },
@@ -879,11 +875,6 @@ const QUOTES = [
     author: "Mary Oliver"
   },
 
-  {
-    text: "And after a long time the boy came back again.\n'I am sorry, Boy,' said the tree, 'but I have nothing left to give you —\nmy apples are gone.'\n'My teeth are too weak for apples,' said the boy.\n'My branches are gone,' said the tree. 'You cannot swing on them.'\n'I am too old to swing on branches,' said the boy.\n'My trunk is gone,' said the tree. 'You cannot climb.'\n'I am too tired to climb,' said the boy.\n'I am sorry,' sighed the tree. 'I wish that I could give you something… but I have nothing left. I am an old stump. I am sorry.'\n'I don't need very much now,' said the boy. 'Just a quiet place to sit and rest. I am very tired.'\n'Well,' said the tree, straightening herself up as much as she could, 'well, an old stump is good for sitting and resting. Come, Boy, sit down. Sit down and rest.'\nAnd the boy did.\nAnd the tree was happy.",
-    author: "Shel Silverstein",
-    source: "The Giving Tree"
-  },
 
   {
     text: "There are two means of refuge from the misery of life — music and cats.",
