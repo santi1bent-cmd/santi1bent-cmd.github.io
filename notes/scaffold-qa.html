@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Does a benchmark score measure the model, or the scaffold around it? — A Curious Loop" />
+  <title>Does a benchmark score measure the model, or the scaffold around it? · A Curious Loop</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .note-header {
+      padding: 6rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+    .note-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 300;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .note-header-meta {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .note-back {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: inline-block;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .note-back:hover { color: var(--accent); }
+
+    /* PDF viewer — desktop */
+    .pdf-viewer {
+      width: 100%;
+      height: 85vh;
+      border: 1px solid var(--border-light);
+      background: #fff;
+      display: block;
+      margin-bottom: 6rem;
+    }
+
+    /* Mobile: hide iframe, show open-button */
+    .pdf-mobile {
+      display: none;
+      padding: 3rem 0 6rem;
+      text-align: center;
+    }
+    .pdf-mobile p {
+      font-family: var(--font-body);
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .pdf-open-btn {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-dim);
+      padding: 0.75rem 1.75rem;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    .pdf-open-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .pdf-viewer { display: none; }
+      .pdf-mobile { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo"><img src="../images/logo.png" alt="A Curious Loop" class="nav-logo-img"></a>
+    <ul class="nav-links">
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../quotes.html">Quotes</a></li>
+      <li><a href="../research.html">Research</a></li>
+      <li><a href="../notes.html" class="active">Notes</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="container--wide">
+
+      <a href="../notes.html" class="note-back fade-in">← Notes</a>
+
+      <header class="note-header fade-in">
+        <h1>Does a benchmark score measure the model, or the scaffold around it?</h1>
+        <div class="note-header-meta">Santi Bent &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; <a href="https://github.com/santi1bent-cmd/scaffold-sensitivity-protocolqa" target="_blank" rel="noopener" style="color: var(--accent); letter-spacing: inherit;">Code &amp; results on GitHub →</a></div>
+      </header>
+
+      <!-- Desktop: embedded PDF -->
+      <iframe
+        class="pdf-viewer fade-in fade-in-delay-1"
+        src="scaffold-protocolqa.pdf"
+        title="Does a benchmark score measure the model, or the scaffold around it?">
+      </iframe>
+
+      <!-- Mobile: open link -->
+      <div class="pdf-mobile fade-in fade-in-delay-1">
+        <p>Tap below to read the full note.</p>
+        <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Open PDF →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-loop">∞</span>
+  </footer>
+
+</body>
+</html>
