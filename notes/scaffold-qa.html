@@ -49,8 +49,30 @@
       margin-bottom: 6rem;
     }
 
+    .pdf-mobile {
+      display: none;
+      padding: 4rem 0 6rem;
+      text-align: center;
+    }
+    .pdf-open-btn {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-dim);
+      padding: 0.85rem 2rem;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    .pdf-open-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+    }
+
     @media (max-width: 768px) {
-      .pdf-viewer { height: 80vh; }
+      .pdf-viewer { display: none; }
+      .pdf-mobile { display: block; }
     }
   </style>
 </head>
@@ -82,6 +104,11 @@
         src="scaffold-protocolqa.pdf"
         title="Does a benchmark score measure the model, or the scaffold around it?">
       </iframe>
+
+      <!-- Mobile: native PDF link -->
+      <div class="pdf-mobile fade-in fade-in-delay-1">
+        <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Open →</a>
+      </div>
 
 
     </div>
