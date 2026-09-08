@@ -792,7 +792,12 @@ footer {
 
   .research-links {
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 1.5rem;
+  }
+
+  .research-link {
+    padding: 0.5rem 0;
+    display: inline-block;
   }
 }
 
