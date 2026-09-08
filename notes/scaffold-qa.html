@@ -105,7 +105,7 @@
         title="Does a benchmark score measure the model, or the scaffold around it?">
       </iframe>
 
-      <!-- Mobile: native PDF link -->
+      <!-- Mobile: native PDF link (fallback if auto-redirect doesn't fire) -->
       <div class="pdf-mobile fade-in fade-in-delay-1">
         <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Open →</a>
       </div>
@@ -117,6 +117,14 @@
   <footer>
     <span class="footer-loop">∞</span>
   </footer>
+
+  <script>
+    // On mobile, iframes can't render PDFs, so send the user straight to the
+    // PDF instead of making them tap a second "Open" button.
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      window.location.replace('scaffold-protocolqa.pdf');
+    }
+  </script>
 
 </body>
 </html>
