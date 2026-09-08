@@ -789,6 +789,11 @@ footer {
   .hero-title {
     font-size: 3rem;
   }
+
+  .research-links {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
 }
 
 /* ── Subtle noise texture overlay ──────────────────────── */
