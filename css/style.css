@@ -544,6 +544,7 @@ nav {
 
 .research-links {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   margin-top: 1rem;
 }
@@ -788,11 +789,6 @@ footer {
 
   .hero-title {
     font-size: 3rem;
-  }
-
-  .research-links {
-    flex-direction: column;
-    gap: 1.5rem;
   }
 
   .research-link {
