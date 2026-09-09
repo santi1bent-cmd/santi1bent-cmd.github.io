@@ -54,6 +54,13 @@
       padding: 4rem 0 6rem;
       text-align: center;
     }
+    .note-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
     .pdf-open-btn {
       font-family: var(--font-ui);
       font-size: 0.7rem;
@@ -72,6 +79,7 @@
 
     @media (max-width: 768px) {
       .pdf-viewer { display: none; }
+      .note-actions-desktop { display: none; }
       .pdf-mobile { display: block; }
     }
   </style>
@@ -95,19 +103,27 @@
 
       <header class="note-header fade-in">
         <h1>Does a benchmark score measure the model, or the scaffold around it?</h1>
-        <div class="note-header-meta">Santi Bent &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; <a href="https://github.com/santi1bent-cmd/scaffold-sensitivity-protocolqa" target="_blank" rel="noopener" style="color: var(--accent); letter-spacing: inherit;">Code &amp; results on GitHub →</a></div>
+        <div class="note-header-meta">Santi Bent &nbsp;·&nbsp; 2026</div>
       </header>
 
-      <!-- Desktop: embedded PDF -->
+      <!-- Desktop: embedded PDF + stacked Code / Read buttons -->
+      <div class="note-actions note-actions-desktop fade-in fade-in-delay-1">
+        <a class="pdf-open-btn" href="https://github.com/santi1bent-cmd/scaffold-sensitivity-protocolqa" target="_blank" rel="noopener">Code →</a>
+        <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Read →</a>
+      </div>
+
       <iframe
         class="pdf-viewer fade-in fade-in-delay-1"
         src="scaffold-protocolqa.pdf"
         title="Does a benchmark score measure the model, or the scaffold around it?">
       </iframe>
 
-      <!-- Mobile: native PDF link (fallback if auto-redirect doesn't fire) -->
+      <!-- Mobile: no iframe, so same stacked Code / Read buttons instead -->
       <div class="pdf-mobile fade-in fade-in-delay-1">
-        <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Open →</a>
+        <div class="note-actions">
+          <a class="pdf-open-btn" href="https://github.com/santi1bent-cmd/scaffold-sensitivity-protocolqa" target="_blank" rel="noopener">Code →</a>
+          <a class="pdf-open-btn" href="scaffold-protocolqa.pdf" target="_blank" rel="noopener">Read →</a>
+        </div>
       </div>
 
 
@@ -117,14 +133,6 @@
   <footer>
     <span class="footer-loop">∞</span>
   </footer>
-
-  <script>
-    // On mobile, iframes can't render PDFs, so send the user straight to the
-    // PDF instead of making them tap a second "Open" button.
-    if (window.matchMedia('(max-width: 768px)').matches) {
-      window.location.replace('scaffold-protocolqa.pdf');
-    }
-  </script>
 
 </body>
 </html>
