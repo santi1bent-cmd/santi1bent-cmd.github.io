@@ -87,7 +87,33 @@ body {
   margin: 0 auto;
   padding-block: 0 1.5rem;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.back-link {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+.back-link:hover { color: var(--accent); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
+  .back-link { flex: 1 1 100%; }
+  .topbar-right { margin-left: auto; }
 }
 
 .theme-btn, .toc-btn {
@@ -118,7 +144,6 @@ body {
 }
 :root[data-theme="light"] .theme-btn .i-sun  { display: block; }
 :root[data-theme="light"] .theme-btn .i-moon { display: none; }
-.theme-btn { margin-left: auto; }
 
 /* ── Header ───────────────────────────────────────────── */
 
@@ -330,7 +355,9 @@ body.is-touch .fn-pop-close { display: block; }
 
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-.essay-body h2, .essay-body h3, .foot-section { scroll-margin-top: calc(var(--nav-height) + 1.5rem); }
+.essay-body h2, .essay-body h3, .foot-section { scroll-margin-top: 1.5rem; }
+
+.essay-page { padding-top: 2.5rem; }
 
 .toc-float {
   position: fixed;
@@ -395,10 +422,10 @@ html { scroll-behavior: smooth; }
   .toc-rail {
     display: block;
     position: fixed;
-    top: calc(var(--nav-height) + 2.5rem);
+    top: 4rem;
     left: max(24px, calc(50% - var(--measure) / 2 - 260px));
     width: 210px;
-    max-height: calc(100vh - var(--nav-height) - 5rem);
+    max-height: calc(100vh - 7rem);
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
@@ -461,26 +488,19 @@ html { scroll-behavior: smooth; }
 </head>
 <body>
 
-  <nav>
-    <a href="../index.html" class="nav-logo"><img src="../images/logo.png" alt="A Curious Loop" class="nav-logo-img"></a>
-    <ul class="nav-links">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../quotes.html">Quotes</a></li>
-      <li><a href="../research.html">Research</a></li>
-      <li><a href="../notes.html">Writing</a></li>
-    </ul>
-  </nav>
-
-  <div class="page">
+  <div class="page essay-page">
     <div class="container">
 
       <div class="topbar" id="top">
-        <button class="toc-btn" type="button" data-toc-open aria-controls="toc-sheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h11M4 18h14"/></svg><span>Contents</span></button>
-        <button class="theme-btn" id="theme-btn" type="button" aria-live="polite">
-          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
-          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
-          <span id="theme-label">Light</span>
-        </button>
+        <a href="../index.html" class="back-link">&larr; A Curious Loop</a>
+        <div class="topbar-right">
+          <button class="toc-btn" type="button" data-toc-open aria-controls="toc-sheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h11M4 18h14"/></svg><span>Contents</span></button>
+          <button class="theme-btn" id="theme-btn" type="button" aria-live="polite">
+            <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+            <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+            <span id="theme-label">Light</span>
+          </button>
+        </div>
       </div>
 
       <div class="wrap">
