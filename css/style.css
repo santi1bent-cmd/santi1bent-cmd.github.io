@@ -692,6 +692,74 @@ nav {
   margin-top: 0.75rem;
 }
 
+.essay-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-dim);
+  text-underline-offset: 2px;
+}
+
+.essay-body a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.essay-body ul,
+.essay-body ol {
+  margin: 0 0 1.75rem 1.4rem;
+  color: var(--text);
+}
+
+.essay-body li {
+  margin-bottom: 0.6rem;
+  line-height: 1.75;
+}
+
+.essay-body sup {
+  font-size: 0.7em;
+}
+
+.essay-body sup a {
+  text-decoration: none;
+  color: var(--accent);
+  padding: 0 0.1em;
+}
+
+.essay-refs {
+  margin-top: 1rem;
+}
+
+.essay-refs p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.essay-body .footnotes {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.essay-body .footnotes hr {
+  display: none;
+}
+
+.essay-body .footnotes ol {
+  margin-left: 1.2rem;
+}
+
+.essay-body .footnotes li {
+  margin-bottom: 1rem;
+  line-height: 1.65;
+}
+
+.essay-body .footnote-back {
+  margin-left: 0.4em;
+  color: var(--accent);
+  text-decoration: none;
+}
+
 /* ── Footer ────────────────────────────────────────────── */
 
 footer {
