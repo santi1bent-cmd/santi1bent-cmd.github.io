@@ -330,7 +330,9 @@ body.is-touch .fn-pop-close { display: block; }
 
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-.essay-body h2, .essay-body h3, .foot-section { scroll-margin-top: calc(var(--nav-height) + 1.5rem); }
+.essay-body h2, .essay-body h3, .foot-section { scroll-margin-top: 1.5rem; }
+
+.essay-page { padding-top: 2.5rem; }
 
 .toc-float {
   position: fixed;
@@ -395,10 +397,10 @@ html { scroll-behavior: smooth; }
   .toc-rail {
     display: block;
     position: fixed;
-    top: calc(var(--nav-height) + 2.5rem);
+    top: 4rem;
     left: max(24px, calc(50% - var(--measure) / 2 - 260px));
     width: 210px;
-    max-height: calc(100vh - var(--nav-height) - 5rem);
+    max-height: calc(100vh - 7rem);
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
@@ -461,17 +463,7 @@ html { scroll-behavior: smooth; }
 </head>
 <body>
 
-  <nav>
-    <a href="../index.html" class="nav-logo"><img src="../images/logo.png" alt="A Curious Loop" class="nav-logo-img"></a>
-    <ul class="nav-links">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../quotes.html">Quotes</a></li>
-      <li><a href="../research.html">Research</a></li>
-      <li><a href="../notes.html">Writing</a></li>
-    </ul>
-  </nav>
-
-  <div class="page">
+  <div class="page essay-page">
     <div class="container">
 
       <div class="topbar" id="top">
