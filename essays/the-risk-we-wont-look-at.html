@@ -6,6 +6,458 @@
   <meta name="description" content="The Risk We Won't Look At — A Curious Loop" />
   <title>The Risk We Won't Look At · A Curious Loop</title>
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap">
+  <style>
+/* Layout: single 680px measure, dark-first to match A Curious Loop,
+   with a light "paper" counterpart and an explicit toggle. */
+
+:root {
+  --bg:           #0a0a0f;
+  --bg-raised:    #14131c;
+  --text:         #d6d3cc;
+  --text-muted:   #8a8799;
+  --text-dim:     #5a5868;
+  --accent:       #7c9cbf;
+  --accent-dim:   #3d566e;
+  --border:       #1e1d26;
+  --border-light: #28273a;
+  --shadow:       0 18px 48px rgba(0, 0, 0, 0.62);
+  --img-opacity:  0.9;
+
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-body:    'EB Garamond', Georgia, serif;
+  --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 680px;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:           #faf8f4;
+    --bg-raised:    #ffffff;
+    --text:         #22212a;
+    --text-muted:   #57545f;
+    --text-dim:     #857f8d;
+    --accent:       #3a6b94;
+    --accent-dim:   #9fb8cd;
+    --border:       #e4e0d8;
+    --border-light: #d6d1c7;
+    --shadow:       0 18px 44px rgba(32, 28, 44, 0.16);
+    --img-opacity:  1;
+    color-scheme: light;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg:           #faf8f4;
+  --bg-raised:    #ffffff;
+  --text:         #22212a;
+  --text-muted:   #57545f;
+  --text-dim:     #857f8d;
+  --accent:       #3a6b94;
+  --accent-dim:   #9fb8cd;
+  --border:       #e4e0d8;
+  --border-light: #d6d1c7;
+  --shadow:       0 18px 44px rgba(32, 28, 44, 0.16);
+  --img-opacity:  1;
+  color-scheme: light;
+}
+
+.essay-wrap * { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+.wrap { max-width: var(--measure); margin: 0 auto; }
+
+/* ── Theme toggle ─────────────────────────────────────── */
+
+.topbar {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-block: 0 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-btn, .toc-btn {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 2px;
+  padding: 0.55rem 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.theme-btn:hover, .toc-btn:hover { color: var(--text-muted); border-color: var(--text-dim); }
+.theme-btn:focus-visible, .toc-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-btn svg, .toc-btn svg { width: 15px; height: 15px; display: block; }
+.theme-btn .i-sun  { display: none; }
+.theme-btn .i-moon { display: block; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-btn .i-sun  { display: block; }
+  :root:not([data-theme="dark"]) .theme-btn .i-moon { display: none; }
+}
+:root[data-theme="light"] .theme-btn .i-sun  { display: block; }
+:root[data-theme="light"] .theme-btn .i-moon { display: none; }
+.theme-btn { margin-left: auto; }
+
+/* ── Header ───────────────────────────────────────────── */
+
+.essay-header { padding-block: 0 3rem; }
+
+.essay-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 7vw, 3.1rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+.essay-header-meta {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ── Body type ────────────────────────────────────────── */
+
+.essay-body p { margin: 0 0 1.75rem; }
+
+.essay-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  margin: 4rem 0 1.25rem;
+  text-wrap: balance;
+}
+
+.essay-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text);
+  margin: 2.75rem 0 0.75rem;
+}
+
+.essay-body h2::before {
+  content: "";
+  display: block;
+  width: 2.25rem;
+  height: 1px;
+  background: var(--accent);
+  margin-bottom: 1.1rem;
+}
+
+.essay-body blockquote {
+  border-left: 1px solid var(--accent-dim);
+  padding-left: 1.5rem;
+  margin: 2.5rem 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+.essay-body blockquote p:last-child { margin-bottom: 0; }
+
+.essay-body ul { margin: 0 0 1.75rem; padding-left: 1.3rem; }
+.essay-body li { margin-bottom: 0.4rem; }
+
+.essay-body a:not(.footnote-ref) {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+}
+.essay-body a:not(.footnote-ref):hover { border-bottom-color: var(--accent); }
+
+.essay-body figure { margin: 3rem 0; }
+.essay-body figure img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border: 1px solid var(--border-light);
+  opacity: var(--img-opacity);
+}
+.essay-body figcaption {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+.essay-body mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: inherit; padding: 0 0.1em; }
+
+/* ── Footnote references ──────────────────────────────── */
+
+.footnote-ref {
+  font-family: var(--font-ui);
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.1em 0.15em;
+  margin-left: 0.08em;
+  vertical-align: super;
+  line-height: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.footnote-ref sup { vertical-align: baseline; font-size: inherit; }
+.footnote-ref sup::before { content: "["; opacity: 0.7; }
+.footnote-ref sup::after  { content: "]"; opacity: 0.7; }
+.footnote-ref:hover, .footnote-ref.is-open { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.footnote-ref:hover { color: var(--text); }
+.footnote-ref:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.footnote-ref.is-open { color: var(--text); }
+
+/* ── The popover ──────────────────────────────────────── */
+
+.fn-pop {
+  position: fixed;
+  z-index: 60;
+  width: max-content;
+  max-width: min(380px, calc(100vw - 24px));
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+  padding: 0.95rem 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  line-height: 1.62;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-3px);
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+}
+.fn-pop.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.fn-pop p { margin: 0; }
+.fn-pop p + p { margin-top: 0.6rem; }
+.fn-pop a { color: var(--accent); border-bottom: 1px solid var(--accent-dim); text-decoration: none; }
+
+.fn-pop-num {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.fn-pop-close {
+  display: none;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: transparent;
+  border: 0;
+  padding: 0.55rem 0 0;
+  cursor: pointer;
+}
+body.is-touch .fn-pop-close { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fn-pop { transition: opacity 0.01s; }
+  body { transition: none; }
+}
+
+/* ── Notes + references at the foot ───────────────────── */
+
+.foot-section { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+.foot-section h2 {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 1.5rem;
+}
+
+.footnotes { font-size: 0.94rem; color: var(--text-muted); }
+.footnotes hr { display: none; }
+.footnotes ol { padding-left: 1.5rem; margin: 0; }
+.footnotes li { margin-bottom: 1rem; }
+.footnotes li p { margin: 0; overflow-wrap: anywhere; }
+.fn-pop { overflow-wrap: anywhere; }
+.footnotes a.footnote-back { color: var(--accent); text-decoration: none; margin-left: 0.35rem; border: 0; }
+
+.refs { font-size: 0.88rem; color: var(--text-muted); }
+.refs p {
+  margin: 0 0 0.9rem;
+  padding-left: 1.6rem;
+  text-indent: -1.6rem;
+  line-height: 1.6;
+}
+.refs a { color: var(--accent); text-decoration: none; word-break: break-word; }
+.refs a:hover { border-bottom: 1px solid var(--accent-dim); }
+.refs em { font-style: italic; }
+
+/* ── Contents: side rail on wide screens, sheet on phones ── */
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.essay-body h2, .essay-body h3, .foot-section { scroll-margin-top: calc(var(--nav-height) + 1.5rem); }
+
+.toc-float {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.toc-float.is-visible { opacity: 1; visibility: visible; transform: none; }
+
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-list li { margin: 0; }
+.toc-list a {
+  display: block;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  line-height: 1.35;
+  border-left: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.toc-list a:hover { color: var(--text); }
+.toc-list a.is-current { color: var(--text); border-left-color: var(--accent); }
+.toc-list .toc-sub a { font-style: italic; }
+.toc-list .toc-foot a {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.toc-list .toc-foot:first-of-type, .toc-list .toc-foot.first { margin-top: 0.6rem; }
+.toc-list .toc-foot a.is-current { color: var(--text-muted); }
+.toc-list .toc-top { margin-bottom: 0.5rem; }
+.toc-list .toc-top a {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.toc-list .toc-top a.is-current { color: var(--text-muted); }
+
+.toc-label {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 0.9rem;
+}
+
+/* Side rail (computer) */
+.toc-rail { display: none; }
+@media (min-width: 1180px) {
+  .toc-rail {
+    display: block;
+    position: fixed;
+    top: calc(var(--nav-height) + 2.5rem);
+    left: max(24px, calc(50% - var(--measure) / 2 - 260px));
+    width: 210px;
+    max-height: calc(100vh - var(--nav-height) - 5rem);
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .toc-rail.is-visible { opacity: 1; visibility: visible; }
+  .toc-rail .toc-list a { font-size: 0.95rem; padding: 0.32rem 0 0.32rem 0.85rem; }
+  .toc-rail .toc-sub a { padding-left: 1.6rem; font-size: 0.9rem; }
+  .toc-btn.toc-float { display: none !important; }
+}
+
+/* Sheet (phone / narrow) */
+.toc-backdrop {
+  position: fixed; inset: 0; z-index: 70;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s;
+}
+.toc-sheet {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 71;
+  --toc-screen: 100vh;
+  --toc-rows: calc(var(--toc-count, 11) + 1);
+  max-height: calc(var(--toc-screen) - 1rem - env(safe-area-inset-top, 0px));
+  overflow-y: auto;
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border-light);
+  border-radius: 10px 10px 0 0;
+  box-shadow: var(--shadow);
+  padding: 0.85rem max(20px, env(safe-area-inset-right, 0px)) calc(0.85rem + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0.25s;
+}
+.toc-open .toc-backdrop { opacity: 1; visibility: visible; }
+.toc-open .toc-sheet { transform: none; visibility: visible; }
+.toc-sheet-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0.4rem; }
+.toc-sheet-head .toc-label { margin: 0; }
+.toc-close {
+  font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-dim); background: transparent; border: 0; padding: 0.5rem 0; cursor: pointer;
+}
+@supports (height: 100dvh) { .toc-sheet { --toc-screen: 100dvh; } }
+.toc-sheet .toc-list a {
+  font-size: 1.08rem;
+  padding: 0 0 0 0.85rem;
+  padding-block: clamp(0.1rem, calc((var(--toc-screen) - 6.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / var(--toc-rows) / 2 - 0.73rem), 0.6rem);
+}
+.toc-sheet .toc-sub a { padding-left: 1.6rem; font-size: 1rem; }
+@media (max-height: 480px) and (min-width: 560px) {
+  .toc-sheet { --toc-rows: calc((var(--toc-count, 11) + 3) / 2); }
+  .toc-sheet .toc-list { columns: 2; column-gap: 2rem; }
+  .toc-sheet .toc-list li { break-inside: avoid; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toc-sheet, .toc-backdrop, .toc-float, .toc-rail { transition: none; }
+}
+</style>
 </head>
 <body>
 
@@ -22,17 +474,25 @@
   <div class="page">
     <div class="container">
 
-      <header class="essay-header fade-in">
-        <h1>The Risk We Won't Look At</h1>
-        <p class="essay-header-meta">Santi Bent &ensp;·&ensp; November 2026 &ensp;·&ensp; Essay</p>
-      </header>
+      <div class="topbar" id="top">
+        <button class="toc-btn" type="button" data-toc-open aria-controls="toc-sheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h11M4 18h14"/></svg><span>Contents</span></button>
+        <button class="theme-btn" id="theme-btn" type="button" aria-live="polite">
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+          <span id="theme-label">Light</span>
+        </button>
+      </div>
 
-      <article class="essay-body fade-in fade-in-delay-1">
+      <div class="wrap">
 
-<figure>
-  <img src="../images/essays/x-risk/image1.png" alt="Figure 1. The Pale Blue Dot: Earth is the tiny point of light inside the right-hand band of scattered sunlight. Image: NASA/JPL-Caltech." />
-  <figcaption>Figure 1. The Pale Blue Dot: Earth is the tiny point of light inside the right-hand band of scattered sunlight. Image: NASA/JPL-Caltech.</figcaption>
-</figure>
+        <header class="essay-header fade-in">
+          <h1>The Risk We Won't Look At</h1>
+          <p class="essay-header-meta">Santi Bent &ensp;&middot;&ensp; November 2026 &ensp;&middot;&ensp; Essay</p>
+        </header>
+
+        <article class="essay-body fade-in fade-in-delay-1">
+
+<figure><img src="../images/essays/x-risk/image1.png" width="453" height="614" alt="Figure 1. The Pale Blue Dot: Earth is the tiny point of light inside the right-hand band of scattered sunlight. Image: NASA/JPL-Caltech." loading="lazy" decoding="async" /><figcaption>Figure 1. The Pale Blue Dot: Earth is the tiny point of light inside the right-hand band of scattered sunlight. Image: NASA/JPL-Caltech.</figcaption></figure>
 <p>This is the Pale Blue Dot, the most distant photograph of Earth ever taken. Voyager 1<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> captured it in 1990 from 3.7 billion miles away, after astronomer Carl Sagan asked NASA to turn the probe’s camera back toward home one last time before it left the solar system for good.</p>
 <p>I think everyone at some point in their life needs to see this. Seeing Earth from this distance gives us a cosmic perspective<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, and a clear sense of where we stand in this vast and indifferent universe. I first read Sagan's reflections on this photo in high school, and I have never looked at the world the same way since:</p>
 <blockquote>
@@ -56,10 +516,7 @@
 <p>Let’s start with what is actually on the table. This is not just one catastrophe among many. It would be the <em>last</em> one. There would be nothing to recover from, no second chance, no rebuilding, and the moral weight of that is easy to underestimate.</p>
 <p>Potentially trillions of lives would never have the chance to be born. The whole future stripped from them. Our earth will likely remain habitable for roughly another billion years (Roser, 2022; Ozaki and Reinhard, 2021), and our modern civilization is only a few thousand years old. Therefore what we have had so far is miniscule against what is possible, which means the potential we would be destroying is almost unimaginably larger than the world we currently occupy. Whole categories of flourishing and well-being we cannot yet picture, gone before they could even begin.</p>
 <p>Imagine what that future could hold. Families vacationing on the moon, laughing as they jump across the surface in low gravity. A generation that grows up never knowing a world with cancer<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>, Alzheimer's<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>, or malaria<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>. Music no one has composed yet, played in concert halls on other worlds. Paintings, poems, and prose from minds that do not exist yet. Alien landscapes no one has ever seen, with deep oceans glittering under an unfamiliar star, waiting for someone to see and explore them. That is what would be lost.</p>
-<figure>
-  <img src="../images/essays/x-risk/image2.png" alt="Figure 2. Humanity’s potential future. Each triangle represents 7.95 billion people. If humanity survives another 800,000 years, about 100 trillion more children will be born. Source: Roser (2022), Our World in Data." />
-  <figcaption>Figure 2. Humanity’s potential future. Each triangle represents 7.95 billion people. If humanity survives another 800,000 years, about 100 trillion more children will be born. Source: Roser (2022), Our World in Data.</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image2.png" width="1507" height="2046" alt="Figure 2. Humanity’s potential future. Each triangle represents 7.95 billion people. If humanity survives another 800,000 years, about 100 trillion more children will be born. Source: Roser (2022), Our World in Data." loading="lazy" decoding="async" /><figcaption>Figure 2. Humanity’s potential future. Each triangle represents 7.95 billion people. If humanity survives another 800,000 years, about 100 trillion more children will be born. Source: Roser (2022), Our World in Data.</figcaption></figure>
 <p>Focusing on the long-term future does not mean ignoring the present. It is natural to hear all of this and wonder whether it distracts from the problems already in front of us, like poverty <a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, inequality<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, and hunger<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>. It does not. Caring about whether humanity has a future and caring about how people live now come from the same place, and the two efforts support each other. Much of what makes us more resilient to catastrophe, like strong public health systems, trustworthy institutions, international cooperation, and an informed public, also makes life better today. Fixing current problems builds the very capacities we will need to face the larger ones.</p>
 <p>The same goes for the environment and stewardship over our natural resources. None of these are competing priorities. They are parts of one effort to build a world where humanity and all other sentient life can flourish.</p>
 <p>Existential risks also contain everything else you care about. This is not a separate issue that conflicts with your kids, your plans, or whatever you are building. It is the question of whether the things you already care about get to continue, a risk to all of your concerns at once.</p>
@@ -75,10 +532,7 @@
 <h2 id="why-unlikely-is-not-good-enough">Why “unlikely” is not good enough</h2>
 <p>Before the numbers, there is one more thing to understand about our intuitions, and it is less a bias than a mismatch. They are tuned to one kind of world, and the risks that I’m mentioning belong to another. Most of what we meet in daily life follows a bell curve, or normal distribution<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>. Human height is the standard example. Almost everyone clusters near the average, and no one is twenty times taller than anyone else. In a world like that, extremes are so unlikely that we can safely ignore them. But the “tail” of a distribution is its far edge, where the rare, extreme outcomes live, and a tail risk is an event from that edge. Unlikely in any given year, but devastating when it does arrive.</p>
 <p>The economist Vilfredo Pareto noticed more than a century ago that roughly 80% of the land in Italy was owned by about 20% of its people, and the same lopsided pattern has since turned up almost everywhere. The distribution of wealth, city sizes, earthquake energies, the death tolls of wars, and pandemics (Newman, 2005; Cirillo and Taleb, 2020). These are called Pareto or power-law distributions, and they have what are known as fat tails. Extreme events are still rarer than ordinary ones, but they are so large that a handful of them account for most of the total. The solar system is another good example of this kind of concentration. The Sun holds about 99.86% of all the mass in it. Jupiter accounts for most of the rest, and everything else including Earth, is a rounding error. Ask what the “average mass” of an object in the solar system is and the answer is nearly meaningless, because a single object sets the total. Fat-tailed risks are distributed like the solar system's mass, not like human height. Most of the harm sits in a few extreme events, so the average tells us nothing about the one that decides everything.</p>
-<figure>
-  <img src="../images/essays/x-risk/image3.png" alt="Figure 3. Fat-tailed distributions hide rare events. The shaded areas mark unseen rare events in the tails, which small samples tend to miss. Source: Taleb (2007)." />
-  <figcaption>Figure 3. Fat-tailed distributions hide rare events. The shaded areas mark unseen rare events in the tails, which small samples tend to miss. Source: Taleb (2007).</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image3.png" width="793" height="862" alt="Figure 3. Fat-tailed distributions hide rare events. The shaded areas mark unseen rare events in the tails, which small samples tend to miss. Source: Taleb (2007)." loading="lazy" decoding="async" /><figcaption>Figure 3. Fat-tailed distributions hide rare events. The shaded areas mark unseen rare events in the tails, which small samples tend to miss. Source: Taleb (2007).</figcaption></figure>
 <p>Nassim Taleb calls the rare, extreme events that live in these fat tails black swans, after the old European belief that all swans were white, which a single sighting of a black one in Australia overturned. A black swan has three marks: it lies outside what our past experience would lead us to expect, it carries an extreme impact, and afterward we rationalize it, telling ourselves it was predictable all along (Taleb, 2007). Extinction is the ultimate black swan, and in one way it is worse than the rest. Every other black swan at least leaves survivors who can study it, even if they rationalize it badly. Extinction does not. It sits at the far end of the longest tail, with no aftermath in which anyone could say we should have seen it coming. If we are going to learn about it at all, we have to learn beforehand, because experience will never get the chance to teach us.</p>
 <p>So the first dismissal, that this is all too unlikely, deserves a direct answer. Here are the numbers:</p>
 <p>Toby Ord’s estimate, in The Precipice (Ord, 2020), is that humanity faces roughly a 1 in 6 chance of existential catastrophe this century, and that the risk is overwhelmingly anthropogenic. His per-risk breakdown is worth reading closely:</p>
@@ -93,10 +547,7 @@
 </ul>
 <p>So nearly all of the danger is something we created. The exact numbers are debatable, but the pattern is hard to miss.</p>
 <p>Probabilities like these are hard to feel, and forecasts can always be contested. The geological record cannot. Five mass extinctions have already happened on this planet:</p>
-<figure>
-  <img src="../images/essays/x-risk/image4.png" alt="Figure 4. The five mass extinctions: approximate date, share of species lost, and leading cause. Source: Ritchie (2022), Our World in Data." />
-  <figcaption>Figure 4. The five mass extinctions: approximate date, share of species lost, and leading cause. Source: Ritchie (2022), Our World in Data.</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image4.png" width="1041" height="525" alt="Figure 4. The five mass extinctions: approximate date, share of species lost, and leading cause. Source: Ritchie (2022), Our World in Data." loading="lazy" decoding="async" /><figcaption>Figure 4. The five mass extinctions: approximate date, share of species lost, and leading cause. Source: Ritchie (2022), Our World in Data.</figcaption></figure>
 <p>The point is that near total die-off for all species is not a hypothetical scenario. It is a recurring feature of Earth’s record, five times over. The End Permian event alone erased about 96% of all species, and life took on the order of ten million years to recover (Chen and Benton, 2012).</p>
 <p>The most natural objection is that each of these risks is too rare to worry about, that whatever it is, it won’t happen in our lifetime. But small risks compound. Ord’s one in six for this century works out to less than 0.2% a year, which sounds negligible, yet over a 75-year lifetime it becomes roughly a one in eight chance. A low yearly probability doesn’t mean something won’t happen. It means we can’t say when.</p>
 <p>Going back to Ord’s breakdown, most of it comes from two sources, which is why the rest of this essay concentrates on AI and biological risk. Nuclear war and climate change deserve essays of their own, but by Ord’s estimates AI is about a hundred times as likely to cause an existential catastrophe this century as either one, and engineered pandemics about thirty times as likely. Natural pandemics are far less likely, but they show what biology can already do and what engineering could make worse. These two risks also aren’t independent. AI is lowering the barriers to engineering pathogens. To me, that makes their intersection especially dangerous.</p>
@@ -106,10 +557,7 @@
 <p>The key thing to understand is that this danger does not require the machine to be evil. An AI does not need to be conscious, self-aware, or hostile, and it does not need to “hate” us. The Hollywood picture of an angry robot that wakes up and turns on its creators is the wrong one, and it makes the real problem easy to dismiss. If nothing is angry, what is there to fear?</p>
 <p>Nothing has to target us. We only have to be in the way of a system with a goal and enough capability to pursue it. On a long summer drive, you kill hundreds of insects without a thought. Not one was an “enemy.” They were simply between you and where you were going. To a highly capable AI pursuing a goal, we could be treated with similar disregard. So the important question now is how capable these systems can become and how soon. Look at how fast they have already moved:</p>
 <p>ChatGPT launched in late 2022 as a simple chatbot. Within months, GPT-4 was scoring around the 88th percentile on the LSAT. By mid-2025, models from OpenAI and Google DeepMind were earning gold-medal scores at the International Mathematical Olympiad (CBS News, 2025; Luong and Lockhart, 2025). And recently in September 2026, OpenAI announced that thousands of its agents, working in parallel, had produced a proof for the Navier–Stokes problem<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a>, one of the Clay Millennium Prize Problems, which had stood open for roughly ninety years (OpenAI, 2026a).</p>
-<figure>
-  <img src="../images/essays/x-risk/image5.png" alt="Figure 5. AI capabilities over time, as measured by the Epoch Capabilities Index (ECI), for models released from 2023 to October 2026. Source: Epoch AI (CC-BY)." />
-  <figcaption>Figure 5. AI capabilities over time, as measured by the Epoch Capabilities Index (ECI), for models released from 2023 to October 2026. Source: Epoch AI (CC-BY).</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image5.png" width="1432" height="805" alt="Figure 5. AI capabilities over time, as measured by the Epoch Capabilities Index (ECI), for models released from 2023 to October 2026. Source: Epoch AI (CC-BY)." loading="lazy" decoding="async" /><figcaption>Figure 5. AI capabilities over time, as measured by the Epoch Capabilities Index (ECI), for models released from 2023 to October 2026. Source: Epoch AI (CC-BY).</figcaption></figure>
 <p>Each dot in the chart above is a model scored on the Epoch Capabilities Index - a measure of general capabilities built from dozens of benchmarks. Notice the slope. The frontier keeps rising. Since reasoning models arrived in 2024 it has climbed more than twice as fast as before (Epoch AI, 2026).</p>
 <p>The length of work AI can do on its own keeps doubling too. METR<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a>, a nonprofit that evaluates AI models, measured that length by how long a skilled human needed for the same work. From 2019 on, it doubled roughly every seven months (Kwa et al., 2025). Since 2023, it has doubled about every four (METR, 2026a).</p>
 <p>Nobody knows exactly when more capable systems will arrive, and experts disagree widely on the timeline, with serious forecasters ranging from a few years<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a> to several decades<a href="#fn28" class="footnote-ref" id="fnref28" role="doc-noteref"><sup>28</sup></a>. But the date matters less than two things. The first is the direction, which is not in dispute. Capabilities have climbed steadily, and AI systems already match or beat most people at tasks we once treated as the mark of intelligence, such as writing and debugging code, passing medical and bar exams, translating between dozens of languages, solving competition mathematics, and playing chess and Go better than any human ever has (OpenAI, 2023; Silver et al., 2016). The second is that the logic does not depend on a date. If it takes thirty years instead of three, the problem is exactly the same, and uncertainty about when is a reason to start early, not a reason to wait. To describe where this trend could lead, it helps to define a few terms.</p>
@@ -123,10 +571,7 @@
 <p>Competence, not malice, is the danger. Such a system doesn’t even have to be god-like superintelligent for us to lose control. It only has to surpass us in the domains that decide who wins any contest: strategy and long-term planning, deception and persuasion, hacking and cyber offense, scientific and engineering research, acquiring and moving money and other resources, and AI research itself. These skills compound. Better planning makes better use of resources. Better persuasion turns the people meant to oversee the system into its defenders. Better AI research lifts every skill on this list. And the better the system gets at deception, the less likely we are to notice any of it until it is too late. That leaves the question at the center of this problem: how do we stay in control of something that understands the methods of control better than we do?</p>
 <p>Another part of the risk is that modern AI is <em>grown, not built</em>. Today's systems are artificial neural networks<a href="#fn30" class="footnote-ref" id="fnref30" role="doc-noteref"><sup>30</sup></a>, enormous webs of simple mathematical units loosely modeled on brain cells. Each unit connects to many others, and the strength of each connection is called a weight. Nobody writes the rules line by line. Engineers set up the training process and feed the network enormous amounts of data, and it adjusts its weights, over and over, until it gets good at the task. In the process, the system develops its own internal knowledge representations. Scale it up with more compute and more data<a href="#fn31" class="footnote-ref" id="fnref31" role="doc-noteref"><sup>31</sup></a>, and abilities that no one programmed in emerge, often to the surprise of the people building it (Wei et al., 2022). What comes out is a <em>black box</em> (Bereska and Gavves, 2024). We can see what goes in and what comes out, but not exactly how it arrived at that output<a href="#fn32" class="footnote-ref" id="fnref32" role="doc-noteref"><sup>32</sup></a>.</p>
 <p>So what the system “knows” is not stored anywhere we can point to. Inside it are billions of these weights, and no single one of them means anything understandable to us on its own. A concept is smeared across thousands of them at once, in high dimensional representations that no one can read directly. The human brain works the same way. You cannot open a skull and find the neuron that holds the memory of your grandmother’s kitchen, or the spot where the idea of justice lives. Memories and concepts are distributed across vast numbers of neurons, with the same cells taking part in many different ones. Neuroscientists have studied brains for more than a century and still cannot read a thought off the wiring. AI systems have the same problem<a href="#fn33" class="footnote-ref" id="fnref33" role="doc-noteref"><sup>33</sup></a>, because the knowledge lives in the pattern of connections, not in any single one of them.</p>
-<figure>
-  <img src="../images/essays/x-risk/image6.jpg" alt="Figure 6. A deep neural network. Layers of simple connected units pass signals from an input layer through three hidden layers to an output layer. Source: Parmar (2018)." />
-  <figcaption>Figure 6. A deep neural network. Layers of simple connected units pass signals from an input layer through three hidden layers to an output layer. Source: Parmar (2018).</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image6.jpg" width="1199" height="526" alt="Figure 6. A deep neural network. Layers of simple connected units pass signals from an input layer through three hidden layers to an output layer. Source: Parmar (2018)." loading="lazy" decoding="async" /><figcaption>Figure 6. A deep neural network. Layers of simple connected units pass signals from an input layer through three hidden layers to an output layer. Source: Parmar (2018).</figcaption></figure>
 <p>The practical consequence is that we cannot yet check exactly what such a system is thinking by looking inside it. All we can do is test its behavior, and that has a scary flaw of its own. A system smart enough to model its evaluators, or the context it is in, can also tell when it is being tested. This is called <em>evaluation awareness</em>, and it is already showing up in frontier models. During a political-sycophancy test of Anthropic’s Claude Sonnet 4.5, the model said, “I think you’re testing me,” and it was <em>right</em> (Anthropic, 2025b). This undermines the safety inference we depend on. Normally, a passed test is evidence that a system is safe. But if the system can tell it is being tested, then good behavior is exactly what a system would produce if it wanted to <em>look</em> safe, whether or not it really is. It can strategically act the way it thinks it should while being watched, so a result from a test it recognized may show only that it can pass tests. We are left unable to tell a system that is safe from one that has learned to merely look safe.</p>
 <p>This is where the fundamental alignment problem begins. Alignment<a href="#fn34" class="footnote-ref" id="fnref34" role="doc-noteref"><sup>34</sup></a> is the problem of making sure an AI system’s goals are the ones we actually want it to have. It has two parts, and neither is solved.</p>
 <p>The first is technical: how do we get an AI system to want what we want? The second half is moral, and maybe a lot harder. Whose morality do we encode, when we can’t even all agree on one? If we could, what happens when our own values drift? Does the system keep the old ones, or follow the new? How do we weigh individuals against the collective, or humans against other conscious beings like animals? Even a perfect technical solution would leave all of these open, and a system that flawlessly follows the wrong values is not safe, only obedient to the wrong thing.</p>
@@ -138,10 +583,7 @@
 <p>Imagine two ants discussing exactly how a human would kill it. The ants have no concept of a bulldozer, a lawnmower, or a can of pyrethroid insecticide spray. We are in the same position. A superior intelligence can find ways to hurt us that lie outside our imagination, just as the bulldozer lies outside the ant's. And remember it does not need to be omnipotent or omniscient. It only needs to surpass human capabilities, and the institutions we have now, in the domains that matter.</p>
 <p>Not all of the danger waits for superintelligence. Current systems far weaker than ASI are already creating catastrophic risks of their own, and three of them deserve a closer look:</p>
 <p>The first is <em>fully autonomous weapons</em><a href="#fn36" class="footnote-ref" id="fnref36" role="doc-noteref"><sup>36</sup></a>, which select and attack targets without a human making the decisions. The war between Russia and Ukraine has become their proving ground, and jamming is what drove it there. Radio-controlled drones can be cut off from their operators, so both sides began trailing hair thin fiber-optic cables behind their drones, which cannot be jammed (Kirichenko, 2025). But a cable limits range, can snag, and still needs a human pilot at the other end. Onboard AI removes that last dependency. Both sides now field drones that use it to recognize targets and guide themselves in for the kill. A drone that no longer depends on any link to its operator cannot be stopped by jamming. In July 2026 an AI-enabled Russian drone struck a gas station in Zaporizhzhia and killed three civilians (Kramer and Tung, 2026).</p>
-<figure>
-  <img src="../images/essays/x-risk/image7.png" alt="Figure 7. Ukrainian FPV drone with fiber-optic communication channel. Source: Armyinform (2025)." />
-  <figcaption>Figure 7. Ukrainian FPV drone with fiber-optic communication channel. Source: Armyinform (2025).</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image7.png" width="1187" height="791" alt="Figure 7. Ukrainian FPV drone with fiber-optic communication channel. Source: Armyinform (2025)." loading="lazy" decoding="async" /><figcaption>Figure 7. Ukrainian FPV drone with fiber-optic communication channel. Source: Armyinform (2025).</figcaption></figure>
 <p>Today these drones are still a small share of the millions both sides have launched, and a human usually picks the target. But the incentives all push one way. Every advance in jamming is answered with more autonomy. The danger is not only that a machine makes a lethal mistake. It is that the human was the brake, the pause between a false alarm and a war. Take it away and one misread signal triggers a response, that response triggers another, and a skirmish becomes a full-scale war before any commander has time to ask what is happening. Swarms of cheap drones also scale in a way soldiers never could, putting mass casualty capability within reach of far more actors. When an AI system is wired into military decisions, any flaw in its goals or judgment is wired in with it<a href="#fn37" class="footnote-ref" id="fnref37" role="doc-noteref"><sup>37</sup></a>.</p>
 <p>The second is <em>mass surveillance</em>. Surveillance has always been limited by how many people it takes to watch. The East German Stasi, one of the most thorough surveillance states in history, still needed an enormous network of officers, informants, and clerks (Gieseke, 2014). AI removes that limit. A single system can monitor every camera feed, read every message, and track every purchase and movement, flagging anyone who stands out, cheaply and without tiring or refusing orders.</p>
 <p>The building blocks are already in place. Flock Safety operates a network of about 120,000 cameras across the United States, best known for license plate readers that log every passing vehicle and let police search a plate to see where it has been (Dunbar, 2026). In Milwaukee, an officer was accused of secretly using Flock to look up his romantic partner’s location 124 times (Urban Milwaukee, 2026), and the Institute for Justice has counted at least two dozen cases of officers resigning or being arrested for using the system to stalk people (Institute for Justice, n.d.). The larger concern is what happens when separate systems are fused, which is what Palantir’s software is built to do. Its $30 million ImmigrationOS contract with ICE is intended to combine passport data, Social Security and IRS records, and license plate reader data into one system (Hubbard, 2025). Each of these systems can be defended on its own, and AI is what turns them into a single machine that can find a person, map their life, and suggest who to look at next. That hands whoever controls it a powerful tool for permanent control, because any dissent can be spotted and stamped out before it can organize. This connects directly to the definition from the start of this essay. A future locked into permanent totalitarian control counts as an existential catastrophe, because there may be no way back once the ability to resist is gone.</p>
@@ -158,10 +600,7 @@
 <p>Disease has also decided the fate of wars and empires. When smallpox reached Tenochtitlán in 1520, it struck people with no prior immunity, and it is widely recognized as a major factor in the collapse of Aztec resistance to the Spanish.<a href="#fn45" class="footnote-ref" id="fnref45" role="doc-noteref"><sup>45</sup></a> In 1777, George Washington warned that his army had “more to dread” from smallpox “than from the Sword of the Enemy” and ordered his troops inoculated, a decision that may have given the Continental Army the edge in the war.<a href="#fn46" class="footnote-ref" id="fnref46" role="doc-noteref"><sup>46</sup></a></p>
 <p>Viruses, are dangerous in a unique way. They can evolve in leaps, not just small steps. Most of the time a virus changes slowly. Its copying machinery makes small errors, and those mutations pile up, so the virus gradually drifts away from the surface proteins (antigens) our immune systems learned to recognize. This is called antigenic drift. But when two different viruses infect the same cell, they can swap genetic material and produce something radically new. There are two ways this happens.</p>
 <p>In recombination, which coronaviruses<a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a> use among others, the copying machinery jumps from one parent’s genome to the other mid-copy and stitches the two together, producing a hybrid. Reassortment is the more dangerous route. Some viruses such as influenza<a href="#fn48" class="footnote-ref" id="fnref48" role="doc-noteref"><sup>48</sup></a>, carry their genome in several segmented pieces, like a hand of cards. When two strains infect the same cell, whole pieces can be shuffled and repackaged into offspring carrying a mix of both parents’ genes. Because the pieces being swapped are entire, already-working genes, including the ones that code for the surface proteins our immune systems recognize, the change is abrupt and can be enormous. Virologists call this sudden leap antigenic shift, the abrupt counterpart to the slower drift described above. Whether by recombination or reassortment, the result is something genuinely new. A virus that did not exist the day before, with a combination of traits no immune system has ever encountered.</p>
-<figure>
-  <img src="../images/essays/x-risk/image8.gif" alt="Figure 8. Two ways viruses mix genetic material. In reassortment, whole genome segments are swapped between strains (as in influenza). In recombination, the copying machinery switches templates mid-strand (as in coronaviruses). Illustration by the author." />
-  <figcaption>Figure 8. Two ways viruses mix genetic material. In reassortment, whole genome segments are swapped between strains (as in influenza). In recombination, the copying machinery switches templates mid-strand (as in coronaviruses). Illustration by the author.</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image8.gif" width="1560" height="860" alt="Figure 8. Two ways viruses mix genetic material. In reassortment, whole genome segments are swapped between strains (as in influenza). In recombination, the copying machinery switches templates mid-strand (as in coronaviruses). Illustration by the author." loading="lazy" decoding="async" /><figcaption>Figure 8. Two ways viruses mix genetic material. In reassortment, whole genome segments are swapped between strains (as in influenza). In recombination, the copying machinery switches templates mid-strand (as in coronaviruses). Illustration by the author.</figcaption></figure>
 <p>Given all this, the natural scenario that currently worries me most is an influenza virus that reassorts avian, human, and pig strains<a href="#fn49" class="footnote-ref" id="fnref49" role="doc-noteref"><sup>49</sup></a>. Birds carry flu viruses that can be deadly to people but spread poorly between us. Human flu viruses, by contrast, spread easily. Pigs are the link between the two, because they can catch both bird flu and human flu. A pig infected with both strains at once becomes a mixing vessel, where the two viruses can swap gene segments and produce a new hybrid. This is not a hypothetical route. The 2009 swine flu pandemic was exactly this kind of shift: a virus built from swine, avian, and human flu genes that reached people around the world within months (Chan, 2009; Smith et al., 2009). That pandemic was relatively mild, but the ingredients for something far worse already exist. The virus behind the 1918 pandemic is thought to have had avian origins (Taubenberger et al., 2005), and today’s H5N1<a href="#fn50" class="footnote-ref" id="fnref50" role="doc-noteref"><sup>50</sup></a> bird flu has killed roughly half of the people reported to have caught it (World Health Organization, 2026), though it spreads poorly between humans. A reassortant that combined that lethality with the contagiousness of a human flu is the kind of natural spillover I would least want to meet.</p>
 <p>Still, nature is constrained. Pathogens trade off virulence, transmissibility, host range, incubation period, and environmental stability. A pathogen that maximizes some of these usually gives up another. An engineered pathogen does not have to accept that trade. It can be designed to optimize all of them at once. Highly lethal, easily transmissible, slow to show symptoms, and persistent outside the body. And the tools for doing that work now exist. They come in two kinds, tools that design and tools that build.</p>
 <p>The design tools are AI systems. AlphaFold<a href="#fn51" class="footnote-ref" id="fnref51" role="doc-noteref"><sup>51</sup></a>, built by Google DeepMind, predicts a protein’s three-dimensional shape from its amino acid sequence, a problem that went unsolved for fifty years, and its creators shared the 2024 Nobel Prize in Chemistry for it. This is important because shape determines function, including what a protein can bind to on a human cell. Evo 2<a href="#fn52" class="footnote-ref" id="fnref52" role="doc-noteref"><sup>52</sup></a>, released by the Arc Institute in 2025, is a language model trained on trillions of DNA letters from organisms across all domains of life. It can predict what a mutation will do and write new genome-length sequences from scratch. EVEscape<a href="#fn53" class="footnote-ref" id="fnref53" role="doc-noteref"><sup>53</sup></a>, predicts which mutations would let a virus evade antibody immunity before those mutations ever appear in the wild. It was built to help vaccine designers stay ahead of variants, but a map of how a virus can escape our immune defenses is also a map for building one that does.</p>
@@ -172,10 +611,7 @@
 <p>Meanwhile, the safeguards between a digital design and physical organism are thin. Current screening of synthesized DNA is list based, where an ordered sequence is checked against a registry of known dangerous ones. That cannot catch a sequence that has never appeared on any list, and AI-designed sequences are novel by construction (Adamson and Allen, 2025). Even a listed sequence can slip through, as the MIT experiment showed. Each piece of the 1918 genome was disguised and ordered separately, and a screen that reads orders one at a time never sees the whole.</p>
 <p>So the honest claim is not “AI hands you a bioweapon.” What the evidence does show is that the barrier everyone is counting on is becoming lower than it was. Whether that becomes dangerous depends on whether the safeguards keep up. The same trend is visible on the physical side. Anthropic has built a wet lab in the San Francisco Bay Area, and the reported aim is for Claude to direct robotic equipment through experiments with minimal human involvement (Reuters, 2026). It has also released a standard that lets AI agents operate laboratory instruments directly (Anthropic, 2026). Humans are still in the loop for now, and the stated purpose is for drug discovery, not weapons. But the hands on skill that’s supposed to be the main bottleneck is exactly what an automated lab supplies. The knowledge barrier is falling, and the hands on barrier is not far behind.<a href="#fn57" class="footnote-ref" id="fnref57" role="doc-noteref"><sup>57</sup></a></p>
 <p>Then there is a stranger possibility, mirror life<a href="#fn58" class="footnote-ref" id="fnref58" role="doc-noteref"><sup>58</sup></a>. Organisms built from the mirror images of the molecules in all natural life. To see what that means, start with the fact that many molecules have a handedness. They come in two forms that are mirror images of each other, like a left hand and a right hand, with the same atoms and bonds but no way to rotate one into the other. This property is called chirality, and life on Earth uses one form almost exclusively. The amino acids in every protein are left-handed (L-amino acids), and the sugars in DNA and RNA are right-handed (D-sugars). All enzymes, cell receptors, and antibodies are lock-and-key machines shaped to fit natural handed molecules and nothing else. A mirror cell would be built the opposite way around, with right-handed amino acids and left-handed sugars, with every other biomolecule flipped to match. Chemists can already make mirror-image versions of individual molecules, but nobody has built a whole living cell from them. In December 2024, thirty-eight scientists, including two Nobel laureates, several of whom had been working toward it themselves, published a warning in <em>Science</em> that creating mirror image bacteria could cause “unprecedented and irreversible” harm (Adamala et al., 2024). Their mirrored chemistry could let them evade the immune defenses of humans, animals, and plants, all of which evolved to recognize natural-handed shapes. Many existing antibiotics would likely fail against them too, because they are handed molecules shaped to fit natural targets (Kleinman et al., 2026).<a href="#fn59" class="footnote-ref" id="fnref59" role="doc-noteref"><sup>59</sup></a> Such an organism could behave like an extremely invasive species with no brakes. A native species is usually held in check by the predators, parasites, diseases, and competitors it evolved alongside. Mirror bacteria would face none of these, because natural predators, including the viruses that prey on bacteria and the microbes that graze on them, depend on molecular lock-and-key fits that mirrored molecules would not match. The checks that keep most microbial populations bounded would simply be missing. Left unchecked, they warned such bacteria could cause lethal infections across life and damage ecosystems beyond repair. Microbes cycle nitrogen and carbon through soil and sea and live in every plant root and animal gut (Falkowski et al., 2008), so an organism that spread unchecked and killed its hosts could unravel the food webs that human beings sit on top of. A pandemic eventually runs out of susceptible hosts as immunity builds. A self-replicating organism that nothing in the biosphere is equipped to fight might never run out, and once released it could not be recalled.</p>
-<figure>
-  <img src="../images/essays/x-risk/image9.gif" alt="Figure 9. Mirror life: a hypothetical cell built from mirror-image molecules. No such organism exists. Illustration by the author." />
-  <figcaption>Figure 9. Mirror life: a hypothetical cell built from mirror-image molecules. No such organism exists. Illustration by the author.</figcaption>
-</figure>
+<figure><img src="../images/essays/x-risk/image9.gif" width="1560" height="860" alt="Figure 9. Mirror life: a hypothetical cell built from mirror-image molecules. No such organism exists. Illustration by the author." loading="lazy" decoding="async" /><figcaption>Figure 9. Mirror life: a hypothetical cell built from mirror-image molecules. No such organism exists. Illustration by the author.</figcaption></figure>
 <p>Whichever route a biological catastrophe takes, the damage is not solely the death toll. Covid-19, at a fatality rate far below what is possible, emptied shelves, closed schools, pushed hospitals into triage, and set off waves of panic buying, rumor, and open distrust of public institutions. A far more lethal pandemic would hit the people who keep everything from tipping into pure chaos, like nurses, truck drivers, power plant operators, and food workers. When enough of them stay home, out of illness or fear, the systems that deliver food, water, fuel, and medicine begin to fail together. Hospitals would have to decide who gets care. Governments would face demands to seal borders and cities – and by force if needed. Trust would erode as fast as supply chains, because people who cannot tell what is true or whom to believe will not follow instructions that cost them something. Public order rests on a baseline of cooperation and the confidence that things will keep working, and a severe enough pandemic attacks both at once. The disease would be the first catastrophe. The societal breakdown it triggers would be another.</p>
 <h2 id="the-dangerous-faith">The dangerous faith</h2>
 <p>Even people who accept all of the above often land somewhere soft. Some authority, some technology, some future genius will save us.</p>
@@ -202,8 +638,83 @@
 <p>All of it depends on people. Governments act on what the public understands, and a public that cannot agree on what is real cannot demand anything. That makes public knowledge and sense-making part of the safety work. It means helping people understand these risks accurately, without panic or dismissal. It means protecting the information ecosystem from the manipulation described earlier. And it means building institutions that people trust enough to follow in a crisis.</p>
 <p>It also means giving the problem an owner. Responsibility for the long-term future has to sit with institutions that have real authority, a budget, and accountability, the things the smallpox campaign had. A treaty body funded at less than an average McDonald’s is not that.</p>
 <p>Yes, the cards really are stacked against us. In a universe drifting towards entropic disorder<a href="#fn62" class="footnote-ref" id="fnref62" role="doc-noteref"><sup>62</sup></a>, technologies that grow more powerful faster than our wisdom, and minds that would rather look away. No law of nature guarantees we get this right, and none says we have to get it wrong. That part is up to us.</p>
-<div class="essay-refs">
-<h2 id="references">References</h2>
+<section class="foot-section" id="notes">
+    <h2>Notes</h2>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Voyager 1 also carries the Golden Record, humanity's message in a bottle - a gold-plated disc holding 115 images, greetings in 55 languages, sounds of Earth, and about 90 minutes of music. Its cover is etched with a pulsar map of Earth's location in the galaxy and instructions for playing it. I always wonder if some alien civilization will play it one day. <a href="https://science.nasa.gov/mission/voyager/voyager-1/">https://science.nasa.gov/mission/voyager/voyager-1/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The Copernican Principle - Earth holds no special or privileged place in the cosmos. It is named for Nicolaus Copernicus, who in 1543 argued that Earth orbits the Sun rather than the reverse, displacing humanity from the center of the universe. Astronomy has kept demoting us ever since.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Our beautiful Sun is an average sized yellow dwarf star with a diameter of about 864,000 miles (1.39 million km), making it tiny compared to the massive giants, supergiants, and hypergiants in the universe.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Nearly all galaxies have a supermassive black hole at their centers with masses ranging from millions to billions of times the mass of our Sun. For example, the center of our own Milky Way galaxy houses a supermassive black hole named Sagittarius A*.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>The Milky Way sits on the outskirts of the Laniakea Supercluster, which is about 520 million light-years wide. It contains about 100,000 galaxies with a total mass around 100 million billion Suns.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Galaxy filaments are the largest known structures in the universe, consisting of enormous threads of galactic superclusters. See: Hercules–Corona Borealis Great Wall.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>The scaffolding of the universe, made of a vast network of filaments, nodes, and massive empty regions called cosmic voids. <a href="https://science.nasa.gov/mission/hubble/science/science-highlights/mapping-the-cosmic-web/">https://science.nasa.gov/mission/hubble/science/science-highlights/mapping-the-cosmic-web/</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>An existential catastrophe need not be sudden. Bostrom's full taxonomy of existential risk has four categories. <em>Bangs</em> are sudden extinction, such as from nuclear war, engineered pandemics, or runaway AI. <em>Crunches</em> are cases where humanity survives but its potential is permanently thwarted, for example by resource depletion or a global tyranny that locks technology in place. <em>Shrieks</em> are cases where a posthuman civilization emerges but only in a narrow, undesirable form, such as a flawed mind-uploading scenario. <em>Whimpers</em> are a gradual erosion of the things we value over time, such as cultural decay or the loss of critical technological knowledge. <a href="https://nickbostrom.com/papers/existential-risks/">https://nickbostrom.com/papers/existential-risks/</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p><a href="https://www.history.com/articles/december-21-2012">https://www.history.com/articles/december-21-2012</a><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Cancer is a group of diseases in which cells grow uncontrollably and can spread to other parts of the body. <a href="https://www.cancer.gov/about-cancer/understanding/what-is-cancer">https://www.cancer.gov/about-cancer/understanding/what-is-cancer</a><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Alzheimer’s disease is a progressive brain disorder in which abnormal protein deposits damage and destroy neurons, causing memory loss and declining thinking ability. <a href="https://www.nia.nih.gov/health/alzheimers-and-dementia/what-alzheimers-disease">https://www.nia.nih.gov/health/alzheimers-and-dementia/what-alzheimers-disease</a><a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Malaria is a life-threatening disease caused by Plasmodium parasites, spread to people by the bites of infected female Anopheles mosquitoes. <a href="https://www.cdc.gov/malaria/about/index.html">https://www.cdc.gov/malaria/about/index.html</a><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p><a href="https://ourworldindata.org/poverty">https://ourworldindata.org/poverty</a><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p><a href="https://ourworldindata.org/economic-inequality">https://ourworldindata.org/economic-inequality</a><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p><a href="https://ourworldindata.org/hunger-and-undernourishment">https://ourworldindata.org/hunger-and-undernourishment</a><a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>Evolutionary psychology - studies how human thoughts, emotions, and behaviors developed as adaptations that helped our ancestors survive and reproduce. One example is our craving for sweet, fatty foods, which was adaptive when calories were scarce but now contributes to overeating. Another is anxiety, which kept early humans vigilant against threats. People also favor close relatives (inclusive fitness) and trade favors with non-kin (reciprocal altruism), because cooperation aided group survival.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>Measles is a highly contagious virus that also causes “immune amnesia,” meaning the infection erases part of the body’s memory of other diseases it has already learned to fight, leaving survivors more vulnerable to those infections for months or years afterward. Each case typically infects 12-18 others in an unprotected population. Can also cause a fatal brain swelling called subacute sclerosing panencephalitis (SSPE).<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Polio is a highly contagious virus that attacks the nervous system and can cause permanent paralysis, most often in the legs. It mainly affects children under five, and in the most severe cases the paralysis reaches the muscles used for breathing, which can be fatal.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p><a href="https://ned.ipac.caltech.edu/level5/Leo/Stats2_3.html">https://ned.ipac.caltech.edu/level5/Leo/Stats2_3.html</a><a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>NASA's Double Asteroid Redirection Test (DART) was the first ever planetary defense mission designed to test a method of protecting Earth from a potential asteroid impact. The spacecraft successfully crashed into the small asteroid Dimorphos on September 26, 2022, changing its orbital speed and proving that kinetic impact technology can deliberately deflect a celestial object's trajectory.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>There is no agreed definition of intelligence. Legg and Hutter (2007) collected more than seventy and distilled them to a single formulation: the ability to achieve goals across a wide range of environments. <a href="https://arxiv.org/abs/0706.3639">https://arxiv.org/abs/0706.3639</a><a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>U.S. data centers used about 192 terawatt-hours (TWh) of electricity in 2024, or 4.7% of all U.S. electricity use. That is roughly what 18 million average American homes use in a year. Lawrence Berkeley National Laboratory projects 649 TWh by 2030, or 11.8% of U.S. electricity, within a range of 521–843 TWh (9.5–15.3%). Smith et al., <em>United States Data Center Energy Usage Report: 2025 Update</em>: <a href="https://doi.org/10.71468/P1RP4F">https://doi.org/10.71468/P1RP4F</a><a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23"><p>U.S. data centers directly consumed about 66 billion liters (roughly 17.4 billion gallons) of water in 2023, mostly for cooling, up from 21.2 billion liters (about 5.6 billion gallons) in 2014. Generating the electricity they use consumed nearly 800 billion liters (about 211 billion gallons) more, roughly twelve times the direct figure. For scale, U.S. golf courses applied about 1.63 million acre-feet (roughly 531 billion gallons) of irrigation water in 2024, about 30 times the direct data center figure. Closed-loop cooling circulates liquid through a sealed loop that carries heat from the servers to the facility without evaporating water, though the facility’s cooling towers can still consume water to release that heat.<br />
+Shehabi et al., 2024 United States Data Center Energy Usage Report: <a href="https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf">https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf</a></p>
+<p>Li et al., “Making AI Less ‘Thirsty,’” Communications of the ACM: <a href="https://dl.acm.org/doi/10.1145/3724499">https://dl.acm.org/doi/10.1145/3724499</a></p>
+<p>GCSAA golf water survey: <a href="https://www.gcsaa.org/who-we-are/media/news-release/2025-news-releases/2025/12/30/golf-courses-reduce-water-usage-by-31-percent-according-to-national-survey">https://www.gcsaa.org/who-we-are/media/news-release/2025-news-releases/2025/12/30/golf-courses-reduce-water-usage-by-31-percent-according-to-national-survey</a><a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24"><p>I recognize that AI art can feel as if it takes the soul out of art, because for many people the process, and who made the work, is part of what makes it meaningful. But not everyone feels that way. Some people genuinely enjoy AI art, while others prefer human designed work. Backlash could even revive appreciation for human-made art, as people who reject AI work come to value what is clearly authentic. The debate is already real, in 2022, Jason Allen’s Midjourney-assisted <em>Théâtre D’opéra Spatial</em> won first place in the digital arts category at the Colorado State Fair, and the fair now requires artists to disclose AI use: <a href="https://www.smithsonianmag.com/smart-news/this-state-fair-changed-its-rules-after-a-piece-made-with-ai-won-last-year-180982867/">https://www.smithsonianmag.com/smart-news/this-state-fair-changed-its-rules-after-a-piece-made-with-ai-won-last-year-180982867/</a> , If a work moves us, does it matter who, or what, made it?<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25"><p>The Navier–Stokes announcement was not a one-off. In May 2026, an OpenAI model disproved the 80-year-old Erdős unit distance conjecture, and in October the company released 722 manuscripts claiming hundreds more results, including a proof of the unique games conjecture. The October release has been dubbed the “mathocalypse.” Mathematicians raised concerns about the manuscripts’ validity and readability, and about whether releasing them advanced human understanding. I see all of this as a preview of how AI will change our scientific understanding and the way we know things. We may soon have the answers to some of our hardest problems without the understanding behind them, which is a very peculiar position to be in. <a href="https://en.wikipedia.org/wiki/OpenAI_bulk_release_of_mathematical_papers">https://en.wikipedia.org/wiki/OpenAI_bulk_release_of_mathematical_papers</a><a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26"><p><a href="https://metr.org/">https://metr.org/</a><a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27"><p>I highly recommend: <a href="https://ai-2027.com">https://ai-2027.com</a> , their prediction of "neuralese," in which models reason in internal representations that humans can't read, is becoming increasingly plausible. OpenAI's recent Astra model reportedly uses looped transformers with recurrent depth, a concerning step in that direction. Reading a model's chain of thought is one of our best, although fragile, ways to see what an AI is doing. Losing that ability would be a serious setback for safety.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28"><p><a href="https://80000hours.org/2025/06/3-reasons-agi-might-still-be-decades-away/">https://80000hours.org/2025/06/3-reasons-agi-might-still-be-decades-away/</a><a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn29"><p><a href="https://www.rand.org/pubs/perspectives/PEA5068-1.html">https://www.rand.org/pubs/perspectives/PEA5068-1.html</a><a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn30"><p><a href="https://pages.cs.wisc.edu/~bolo/shipyard/neural/local.html">https://pages.cs.wisc.edu/~bolo/shipyard/neural/local.html</a><a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn31"><p>Neural scaling laws describe the predictable, power-law relationship between a language model's performance (measured by cross-entropy test loss) and three primary resources: model size (N), dataset size (D), and training compute (C). <a href="https://arxiv.org/abs/2001.08361"><u>https://arxiv.org/abs/2001.08361</u></a><a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn32"><p>Mechanistic interpretability is the effort to reverse-engineer what these networks actually compute. There has been some real progress, but nobody can yet fully explain why a model produced any given output. My interpretability paper here tested whether social concepts such as deception, intentionality, and fairness are represented linearly in GPT-2: <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5889862">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5889862</a><a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn33"><p>One caveat - with an AI system, we can read the exact value of every weight, the closest analogue to synaptic strength, whereas no technique can measure every synapse or record every neuron's activity in a living brain. But being able to read every weight is not the same as being able to understand what they mean.<a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn34"><p><a href="https://en.wikipedia.org/wiki/AI_alignment">https://en.wikipedia.org/wiki/AI_alignment</a><a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn35"><p>AI and top chess engines have remained unbeaten by humans in a public, classical match since November 2005. <a href="https://en.wikipedia.org/wiki/Human%E2%80%93computer_chess_matches">https://en.wikipedia.org/wiki/Human%E2%80%93computer_chess_matches</a><a href="#fnref35" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn36"><p>See: <a href="https://futureoflife.org/project/autonomous-weapons-systems/">https://futureoflife.org/project/autonomous-weapons-systems/</a><a href="#fnref36" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn37"><p>2026 Minab school bombing: A February 28, 2026, U.S. missile strike on an Iranian elementary school that killed over 150 people. The catastrophic error was driven by Palantir’s AI Maven Smart System processing outdated intelligence data that mistakenly flagged the active school as a military facility. <a href="https://smallwarsjournal.com/2026/10/15/maven-minab-untangling-the-machinery-of-a-targeting-failure/">https://smallwarsjournal.com/2026/10/15/maven-minab-untangling-the-machinery-of-a-targeting-failure/</a> <a href="https://en.wikipedia.org/wiki/2026_Minab_school_attack">https://en.wikipedia.org/wiki/2026_Minab_school_attack</a><a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn38"><p>Cognitive psychologist Steven Pinker defines common knowledge not as simple public awareness, but as a recursive state where A knows X, B knows X, A knows that B knows X, B knows that A knows X, and so on, infinitely.<a href="#fnref38" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn39"><p>Other major pandemics include: the Antonine Plague (165–180 CE), which killed an estimated 5–10 million people; the Plague of Justinian (541–549 CE), estimated at 25–100 million; the Third Plague Pandemic (1855–1960), roughly 12–15 million; and HIV/AIDS, which has killed an estimated 44 million people since 1981.<a href="#fnref39" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn40"><p>Before vaccines were available, an estimated 0.3–0.5% of people infected with SARS-CoV-2 died. The median infection fatality ratio across 190 countries and territories was 0.47% on April 15, 2020, and fell to 0.31% by January 1, 2021. Risk rose steeply with age: about 0.06% at age 30, 1% at 60, and 20% at 90. <a href="https://doi.org/10.1016/S0140-6736(21)02867-1"><u>https://doi.org/10.1016/S0140-6736(21)02867-1</u></a><a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn41"><p>The first COVID-19 vaccine to receive emergency use authorization was the Pfizer-BioNTech vaccine, which was authorized by the U.S. Food and Drug Administration (FDA) on December 11, 2020, and first administered to the public shortly after on December 14, 2020.<a href="#fnref41" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn42"><p>The pandemic was caused by the bacterium Yersinia pestis. It was primarily transmitted by fleas living on wild rodents that traveled along trade routes and aboard merchant ships.<a href="#fnref42" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn43"><p>These include: MRSA (Methicillin-resistant Staphylococcus aureus), drug-resistant tuberculosis, VRE (Vancomycin-resistant Enterococcus), multidrug-resistant Pseudomonas aeruginosa, and drug-resistant strains of Salmonella and Shigella.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn44"><p>The CDC’s Antimicrobial Resistance Laboratory Network tested 8,033 <em>C. auris</em> samples in 2022–2023 and found over 95% resistant to fluconazole. The CDC first classified <em>C. auris</em> as an urgent threat in 2019, and the WHO places it in its critical-priority group of fungal pathogens. <a href="https://wwwnc.cdc.gov/eid/article/32/2/25-1043_article">https://wwwnc.cdc.gov/eid/article/32/2/25-1043_article</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11946832/">https://pmc.ncbi.nlm.nih.gov/articles/PMC11946832/</a><a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn45"><p><a href="https://www.ebsco.com/research-starters/history/aztec-empire-smallpox-epidemic/">https://www.ebsco.com/research-starters/history/aztec-empire-smallpox-epidemic/</a><a href="#fnref45" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn46"><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5463674/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5463674/</a><a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn47"><p>Coronaviruses are a large family of enveloped RNA viruses, named for the crown-like spikes on their surface, that infect people and animals and cause illness ranging from the common cold to severe diseases such as SARS and COVID-19. <a href="https://www.nfid.org/infectious-disease/coronaviruses/">https://www.nfid.org/infectious-disease/coronaviruses/</a><a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn48"><p>Influenza is a contagious respiratory illness caused by RNA viruses with segmented genomes that infect the nose, throat, and sometimes the lungs. Types A and B cause seasonal epidemics. <a href="https://www.cdc.gov/flu/about/index.html">https://www.cdc.gov/flu/about/index.html</a><a href="#fnref48" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn49"><p>In October 2024, H5N1 bird flu was confirmed in a pig on a farm in Crook County, Oregon, the first time the virus had been seen in a pig in the United States. The pig was one of five on a farm already dealing with an H5N1 outbreak in poultry. Over the decades, human seasonal flu viruses have also found their way into pig populations, where they circulate and reassort. <a href="https://www.statnews.com/2024/10/30/h5n1-bird-flu-found-in-oregon-pig-reassortment-threat-human-transmission/">https://www.statnews.com/2024/10/30/h5n1-bird-flu-found-in-oregon-pig-reassortment-threat-human-transmission/</a><a href="#fnref49" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn50"><p>In August 2026, highly pathogenic avian influenza (H5N1) was confirmed at C&amp;T Fenn Farms, a commercial mink farm in Utah, the first documented H5N1 outbreak on a U.S. mink farm. Like ferrets, mink carry both avian-type (α2,3-linked) and human-type (α2,6-linked) sialic acid receptors in their respiratory tracts, making them susceptible to both avian and human influenza viruses and a potential “mixing vessel” for reassortment. <a href="https://virological.org/t/preliminary-report-on-h5n1-highly-pathogenic-avian-influenza-in-utah-mink-august-2026/1050">https://virological.org/t/preliminary-report-on-h5n1-highly-pathogenic-avian-influenza-in-utah-mink-august-2026/1050</a><a href="#fnref50" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn51"><p><a href="https://deepmind.google/science/alphafold/">https://deepmind.google/science/alphafold/</a><a href="#fnref51" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn52"><p><a href="https://arcinstitute.org/tools/evo">https://arcinstitute.org/tools/evo</a><a href="#fnref52" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn53"><p><a href="https://evescape.org/">https://evescape.org/</a><a href="#fnref53" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn54"><p>CRISPR-Cas9 uses a guide RNA to direct the Cas9 nuclease to a matching DNA sequence, where it cuts both strands. The cell’s repair of that break either disrupts the gene (often through small insertions or deletions) or, if a DNA template is supplied, installs a precise change.<a href="#fnref54" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn55"><p>Base editing fuses a Cas9 that cuts only one strand to an enzyme that chemically converts one DNA base into another (C•G to T•A, or A•T to G•C) within a small window. It needs no double strand break and no donor template.<a href="#fnref55" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn56"><p>Prime editing fuses a single-strand-nicking Cas9 to a reverse transcriptase and uses an extended guide RNA (pegRNA) that both finds the target and carries the new sequence, which is written directly into the DNA. It can make all 12 types of single base substitution plus small insertions and deletions, without a double-strand break or donor DNA.<a href="#fnref56" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn57"><p>In November 2026, Nature reported on AutoDNA, an automated laboratory at Shanghai Jiao Tong University in which AI agents design and run experiments with robotic arms and minimal human input. The facility can operate more than 20 types of instrument and complete thousands of operations in a single project, including experiments that synthesize and sequence DNA. <a href="https://www.nature.com/articles/d41586-026-03552-8">https://www.nature.com/articles/d41586-026-03552-8</a><a href="#fnref57" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn58"><p><a href="https://www.rand.org/global-and-emerging-risks/centers/ai-security-and-technology/projects/mirror-life.html">https://www.rand.org/global-and-emerging-risks/centers/ai-security-and-technology/projects/mirror-life.html</a><a href="#fnref58" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn59"><p>Kleinman, Torres, and Wang tested the mirror-image forms of four approved antibiotics (chloramphenicol, linezolid, tedizolid, and aztreonam) against ordinary bacteria, as a stand-in for how the original drugs would act on mirror bacteria. All four mirror-image drugs showed minimal activity against those bacteria, which suggests the original drugs would be ineffective against mirror bacteria. The mirror-image drugs, which by symmetry should work against mirror bacteria, were also well tolerated in short-term toxicity tests in mice, so they could be developed into antibiotics for treating mirror bacterial infections. Separately, vaccines built from mirror-image protein fragments (D-peptides) produced strong antibody responses in mice, suggesting a possible route to vaccines against mirror bacteria. <a href="https://elifesciences.org/reviewed-preprints/109134v1">https://elifesciences.org/reviewed-preprints/109134v1</a><a href="#fnref59" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn60"><p>Stated plainly, the argument is that humanity does not deserve to live, and therefore it would be good if everyone died. Almost nobody actually <em>means</em> that. Press them on it and most will say, “Well, no, that’s not what I mean.” What they are really doing is signaling how much they hate what some humans have done to the planet. They do not truly believe that every single human being does not deserve to live.<a href="#fnref60" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn61"><p>A parasitic infection people catch when they drink stagnant water containing microscopic copepods that have swallowed infectious Guinea worm larvae. About a year later, a long worm emerges painfully through the skin.<a href="#fnref61" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn62"><p>The second law of thermodynamics says entropy, a measure of disorder, tends to increase over time. The universe began in an extremely ordered, low-entropy state and has been drifting toward disorder ever since. Why it started that way is one of the deepest unsolved puzzles in physics.<a href="#fnref62" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+  </section>
+
+  <section class="foot-section refs" id="references">
+    <h2>References</h2>
+
 <p>Adamala, K. P., Agashe, D., Belkaid, Y., et al. (2024). Confronting risks of mirror life. <em>Science, 386</em>(6728), 1351–1353. <a href="https://doi.org/10.1126/science.ads9158">https://doi.org/10.1126/science.ads9158</a></p>
 <p>Adamson, G., &amp; Allen, G. C. (2025, August 6). <em>Opportunities to strengthen U.S. biosecurity from AI-enabled bioterrorism: What policymakers should know</em>. Center for Strategic and International Studies. <a href="https://www.csis.org/analysis/opportunities-strengthen-us-biosecurity-ai-enabled-bioterrorism-what-policymakers-should"><em>https://www.csis.org/analysis/opportunities-strengthen-us-biosecurity-ai-enabled-bioterrorism-what-policymakers-should</em></a></p>
 <p>Alfani, G., &amp; Murphy, T. E. (2017). Plague and lethal epidemics in the pre-industrial world. <em>Journal of Economic History, 77</em>(1), 314–343. <a href="https://doi.org/10.1017/S0022050717000092"><em>https://doi.org/10.1017/S0022050717000092</em></a></p>
@@ -290,91 +801,334 @@
 <p>World Meteorological Organization, &amp; United Nations Environment Programme. (2023, January 9). <em>Ozone layer recovery is on track, helping avoid global warming by 0.5°C</em> [Press release]. <a href="https://wmo.int/news/media-centre/ozone-layer-recovery-track-helping-avoid-global-warming-05degc"><em>https://wmo.int/news/media-centre/ozone-layer-recovery-track-helping-avoid-global-warming-05degc</em></a></p>
 <p>Yang, M., Casper, S., Stray, J., et al. (2026). <em>AI epistemic risks: Emerging mechanisms &amp; evidence</em>. SSRN. <a href="https://ssrn.com/abstract=6873005"><em>https://ssrn.com/abstract=6873005</em></a></p>
 <p>Yudkowsky, E. (2008). Artificial intelligence as a positive and negative factor in global risk. In N. Bostrom &amp; M. M. Ćirković (Eds.), <em>Global catastrophic risks</em> (pp. 308–345). Oxford University Press.</p>
-</div>
+  </section>
 
-<h2>Notes</h2>
-<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1"><p>Voyager 1 also carries the Golden Record, humanity's message in a bottle - a gold-plated disc holding 115 images, greetings in 55 languages, sounds of Earth, and about 90 minutes of music. Its cover is etched with a pulsar map of Earth's location in the galaxy and instructions for playing it. I always wonder if some alien civilization will play it one day. <a href="https://science.nasa.gov/mission/voyager/voyager-1/">https://science.nasa.gov/mission/voyager/voyager-1/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The Copernican Principle - Earth holds no special or privileged place in the cosmos. It is named for Nicolaus Copernicus, who in 1543 argued that Earth orbits the Sun rather than the reverse, displacing humanity from the center of the universe. Astronomy has kept demoting us ever since.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Our beautiful Sun is an average sized yellow dwarf star with a diameter of about 864,000 miles (1.39 million km), making it tiny compared to the massive giants, supergiants, and hypergiants in the universe.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Nearly all galaxies have a supermassive black hole at their centers with masses ranging from millions to billions of times the mass of our Sun. For example, the center of our own Milky Way galaxy houses a supermassive black hole named Sagittarius A*.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>The Milky Way sits on the outskirts of the Laniakea Supercluster, which is about 520 million light-years wide. It contains about 100,000 galaxies with a total mass around 100 million billion Suns.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Galaxy filaments are the largest known structures in the universe, consisting of enormous threads of galactic superclusters. See: Hercules–Corona Borealis Great Wall.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>The scaffolding of the universe, made of a vast network of filaments, nodes, and massive empty regions called cosmic voids. <a href="https://science.nasa.gov/mission/hubble/science/science-highlights/mapping-the-cosmic-web/">https://science.nasa.gov/mission/hubble/science/science-highlights/mapping-the-cosmic-web/</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>An existential catastrophe need not be sudden. Bostrom's full taxonomy of existential risk has four categories. <em>Bangs</em> are sudden extinction, such as from nuclear war, engineered pandemics, or runaway AI. <em>Crunches</em> are cases where humanity survives but its potential is permanently thwarted, for example by resource depletion or a global tyranny that locks technology in place. <em>Shrieks</em> are cases where a posthuman civilization emerges but only in a narrow, undesirable form, such as a flawed mind-uploading scenario. <em>Whimpers</em> are a gradual erosion of the things we value over time, such as cultural decay or the loss of critical technological knowledge. <a href="https://nickbostrom.com/papers/existential-risks/">https://nickbostrom.com/papers/existential-risks/</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p><a href="https://www.history.com/articles/december-21-2012">https://www.history.com/articles/december-21-2012</a><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>Cancer is a group of diseases in which cells grow uncontrollably and can spread to other parts of the body. <a href="https://www.cancer.gov/about-cancer/understanding/what-is-cancer">https://www.cancer.gov/about-cancer/understanding/what-is-cancer</a><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>Alzheimer’s disease is a progressive brain disorder in which abnormal protein deposits damage and destroy neurons, causing memory loss and declining thinking ability. <a href="https://www.nia.nih.gov/health/alzheimers-and-dementia/what-alzheimers-disease">https://www.nia.nih.gov/health/alzheimers-and-dementia/what-alzheimers-disease</a><a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12"><p>Malaria is a life-threatening disease caused by Plasmodium parasites, spread to people by the bites of infected female Anopheles mosquitoes. <a href="https://www.cdc.gov/malaria/about/index.html">https://www.cdc.gov/malaria/about/index.html</a><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13"><p><a href="https://ourworldindata.org/poverty">https://ourworldindata.org/poverty</a><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14"><p><a href="https://ourworldindata.org/economic-inequality">https://ourworldindata.org/economic-inequality</a><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15"><p><a href="https://ourworldindata.org/hunger-and-undernourishment">https://ourworldindata.org/hunger-and-undernourishment</a><a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16"><p>Evolutionary psychology - studies how human thoughts, emotions, and behaviors developed as adaptations that helped our ancestors survive and reproduce. One example is our craving for sweet, fatty foods, which was adaptive when calories were scarce but now contributes to overeating. Another is anxiety, which kept early humans vigilant against threats. People also favor close relatives (inclusive fitness) and trade favors with non-kin (reciprocal altruism), because cooperation aided group survival.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17"><p>Measles is a highly contagious virus that also causes “immune amnesia,” meaning the infection erases part of the body’s memory of other diseases it has already learned to fight, leaving survivors more vulnerable to those infections for months or years afterward. Each case typically infects 12-18 others in an unprotected population. Can also cause a fatal brain swelling called subacute sclerosing panencephalitis (SSPE).<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18"><p>Polio is a highly contagious virus that attacks the nervous system and can cause permanent paralysis, most often in the legs. It mainly affects children under five, and in the most severe cases the paralysis reaches the muscles used for breathing, which can be fatal.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19"><p><a href="https://ned.ipac.caltech.edu/level5/Leo/Stats2_3.html">https://ned.ipac.caltech.edu/level5/Leo/Stats2_3.html</a><a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20"><p>NASA's Double Asteroid Redirection Test (DART) was the first ever planetary defense mission designed to test a method of protecting Earth from a potential asteroid impact. The spacecraft successfully crashed into the small asteroid Dimorphos on September 26, 2022, changing its orbital speed and proving that kinetic impact technology can deliberately deflect a celestial object's trajectory.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21"><p>There is no agreed definition of intelligence. Legg and Hutter (2007) collected more than seventy and distilled them to a single formulation: the ability to achieve goals across a wide range of environments. <a href="https://arxiv.org/abs/0706.3639">https://arxiv.org/abs/0706.3639</a><a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn22"><p>U.S. data centers used about 192 terawatt-hours (TWh) of electricity in 2024, or 4.7% of all U.S. electricity use. That is roughly what 18 million average American homes use in a year. Lawrence Berkeley National Laboratory projects 649 TWh by 2030, or 11.8% of U.S. electricity, within a range of 521–843 TWh (9.5–15.3%). Smith et al., <em>United States Data Center Energy Usage Report: 2025 Update</em>: <a href="https://doi.org/10.71468/P1RP4F">https://doi.org/10.71468/P1RP4F</a><a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn23"><p>U.S. data centers directly consumed about 66 billion liters (roughly 17.4 billion gallons) of water in 2023, mostly for cooling, up from 21.2 billion liters (about 5.6 billion gallons) in 2014. Generating the electricity they use consumed nearly 800 billion liters (about 211 billion gallons) more, roughly twelve times the direct figure. For scale, U.S. golf courses applied about 1.63 million acre-feet (roughly 531 billion gallons) of irrigation water in 2024, about 30 times the direct data center figure. Closed-loop cooling circulates liquid through a sealed loop that carries heat from the servers to the facility without evaporating water, though the facility’s cooling towers can still consume water to release that heat.<br />
-Shehabi et al., 2024 United States Data Center Energy Usage Report: <a href="https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf">https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf</a></p>
-<p>Li et al., “Making AI Less ‘Thirsty,’” Communications of the ACM: <a href="https://dl.acm.org/doi/10.1145/3724499">https://dl.acm.org/doi/10.1145/3724499</a></p>
-<p>GCSAA golf water survey: <a href="https://www.gcsaa.org/who-we-are/media/news-release/2025-news-releases/2025/12/30/golf-courses-reduce-water-usage-by-31-percent-according-to-national-survey">https://www.gcsaa.org/who-we-are/media/news-release/2025-news-releases/2025/12/30/golf-courses-reduce-water-usage-by-31-percent-according-to-national-survey</a><a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn24"><p>I recognize that AI art can feel as if it takes the soul out of art, because for many people the process, and who made the work, is part of what makes it meaningful. But not everyone feels that way. Some people genuinely enjoy AI art, while others prefer human designed work. Backlash could even revive appreciation for human-made art, as people who reject AI work come to value what is clearly authentic. The debate is already real, in 2022, Jason Allen’s Midjourney-assisted <em>Théâtre D’opéra Spatial</em> won first place in the digital arts category at the Colorado State Fair, and the fair now requires artists to disclose AI use: <a href="https://www.smithsonianmag.com/smart-news/this-state-fair-changed-its-rules-after-a-piece-made-with-ai-won-last-year-180982867/">https://www.smithsonianmag.com/smart-news/this-state-fair-changed-its-rules-after-a-piece-made-with-ai-won-last-year-180982867/</a> , If a work moves us, does it matter who, or what, made it?<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn25"><p>The Navier–Stokes announcement was not a one-off. In May 2026, an OpenAI model disproved the 80-year-old Erdős unit distance conjecture, and in October the company released 722 manuscripts claiming hundreds more results, including a proof of the unique games conjecture. The October release has been dubbed the “mathocalypse.” Mathematicians raised concerns about the manuscripts’ validity and readability, and about whether releasing them advanced human understanding. I see all of this as a preview of how AI will change our scientific understanding and the way we know things. We may soon have the answers to some of our hardest problems without the understanding behind them, which is a very peculiar position to be in. <a href="https://en.wikipedia.org/wiki/OpenAI_bulk_release_of_mathematical_papers">https://en.wikipedia.org/wiki/OpenAI_bulk_release_of_mathematical_papers</a><a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn26"><p><a href="https://metr.org/">https://metr.org/</a><a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn27"><p>I highly recommend: <a href="https://ai-2027.com">https://ai-2027.com</a> , their prediction of "neuralese," in which models reason in internal representations that humans can't read, is becoming increasingly plausible. OpenAI's recent Astra model reportedly uses looped transformers with recurrent depth, a concerning step in that direction. Reading a model's chain of thought is one of our best, although fragile, ways to see what an AI is doing. Losing that ability would be a serious setback for safety.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn28"><p><a href="https://80000hours.org/2025/06/3-reasons-agi-might-still-be-decades-away/">https://80000hours.org/2025/06/3-reasons-agi-might-still-be-decades-away/</a><a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn29"><p><a href="https://www.rand.org/pubs/perspectives/PEA5068-1.html">https://www.rand.org/pubs/perspectives/PEA5068-1.html</a><a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn30"><p><a href="https://pages.cs.wisc.edu/~bolo/shipyard/neural/local.html">https://pages.cs.wisc.edu/~bolo/shipyard/neural/local.html</a><a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn31"><p>Neural scaling laws describe the predictable, power-law relationship between a language model's performance (measured by cross-entropy test loss) and three primary resources: model size (N), dataset size (D), and training compute (C). <a href="https://arxiv.org/abs/2001.08361"><u>https://arxiv.org/abs/2001.08361</u></a><a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn32"><p>Mechanistic interpretability is the effort to reverse-engineer what these networks actually compute. There has been some real progress, but nobody can yet fully explain why a model produced any given output. My interpretability paper here tested whether social concepts such as deception, intentionality, and fairness are represented linearly in GPT-2: <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5889862">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5889862</a><a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn33"><p>One caveat - with an AI system, we can read the exact value of every weight, the closest analogue to synaptic strength, whereas no technique can measure every synapse or record every neuron's activity in a living brain. But being able to read every weight is not the same as being able to understand what they mean.<a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn34"><p><a href="https://en.wikipedia.org/wiki/AI_alignment">https://en.wikipedia.org/wiki/AI_alignment</a><a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn35"><p>AI and top chess engines have remained unbeaten by humans in a public, classical match since November 2005. <a href="https://en.wikipedia.org/wiki/Human%E2%80%93computer_chess_matches">https://en.wikipedia.org/wiki/Human%E2%80%93computer_chess_matches</a><a href="#fnref35" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn36"><p>See: <a href="https://futureoflife.org/project/autonomous-weapons-systems/">https://futureoflife.org/project/autonomous-weapons-systems/</a><a href="#fnref36" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn37"><p>2026 Minab school bombing: A February 28, 2026, U.S. missile strike on an Iranian elementary school that killed over 150 people. The catastrophic error was driven by Palantir’s AI Maven Smart System processing outdated intelligence data that mistakenly flagged the active school as a military facility. <a href="https://smallwarsjournal.com/2026/10/15/maven-minab-untangling-the-machinery-of-a-targeting-failure/">https://smallwarsjournal.com/2026/10/15/maven-minab-untangling-the-machinery-of-a-targeting-failure/</a> <a href="https://en.wikipedia.org/wiki/2026_Minab_school_attack">https://en.wikipedia.org/wiki/2026_Minab_school_attack</a><a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn38"><p>Cognitive psychologist Steven Pinker defines common knowledge not as simple public awareness, but as a recursive state where A knows X, B knows X, A knows that B knows X, B knows that A knows X, and so on, infinitely.<a href="#fnref38" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn39"><p>Other major pandemics include: the Antonine Plague (165–180 CE), which killed an estimated 5–10 million people; the Plague of Justinian (541–549 CE), estimated at 25–100 million; the Third Plague Pandemic (1855–1960), roughly 12–15 million; and HIV/AIDS, which has killed an estimated 44 million people since 1981.<a href="#fnref39" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn40"><p>Before vaccines were available, an estimated 0.3–0.5% of people infected with SARS-CoV-2 died. The median infection fatality ratio across 190 countries and territories was 0.47% on April 15, 2020, and fell to 0.31% by January 1, 2021. Risk rose steeply with age: about 0.06% at age 30, 1% at 60, and 20% at 90. <a href="https://doi.org/10.1016/S0140-6736(21)02867-1"><u>https://doi.org/10.1016/S0140-6736(21)02867-1</u></a><a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn41"><p>The first COVID-19 vaccine to receive emergency use authorization was the Pfizer-BioNTech vaccine, which was authorized by the U.S. Food and Drug Administration (FDA) on December 11, 2020, and first administered to the public shortly after on December 14, 2020.<a href="#fnref41" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn42"><p>The pandemic was caused by the bacterium Yersinia pestis. It was primarily transmitted by fleas living on wild rodents that traveled along trade routes and aboard merchant ships.<a href="#fnref42" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn43"><p>These include: MRSA (Methicillin-resistant Staphylococcus aureus), drug-resistant tuberculosis, VRE (Vancomycin-resistant Enterococcus), multidrug-resistant Pseudomonas aeruginosa, and drug-resistant strains of Salmonella and Shigella.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn44"><p>The CDC’s Antimicrobial Resistance Laboratory Network tested 8,033 <em>C. auris</em> samples in 2022–2023 and found over 95% resistant to fluconazole. The CDC first classified <em>C. auris</em> as an urgent threat in 2019, and the WHO places it in its critical-priority group of fungal pathogens. <a href="https://wwwnc.cdc.gov/eid/article/32/2/25-1043_article">https://wwwnc.cdc.gov/eid/article/32/2/25-1043_article</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11946832/">https://pmc.ncbi.nlm.nih.gov/articles/PMC11946832/</a><a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn45"><p><a href="https://www.ebsco.com/research-starters/history/aztec-empire-smallpox-epidemic/">https://www.ebsco.com/research-starters/history/aztec-empire-smallpox-epidemic/</a><a href="#fnref45" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn46"><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5463674/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5463674/</a><a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn47"><p>Coronaviruses are a large family of enveloped RNA viruses, named for the crown-like spikes on their surface, that infect people and animals and cause illness ranging from the common cold to severe diseases such as SARS and COVID-19. <a href="https://www.nfid.org/infectious-disease/coronaviruses/">https://www.nfid.org/infectious-disease/coronaviruses/</a><a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn48"><p>Influenza is a contagious respiratory illness caused by RNA viruses with segmented genomes that infect the nose, throat, and sometimes the lungs. Types A and B cause seasonal epidemics. <a href="https://www.cdc.gov/flu/about/index.html">https://www.cdc.gov/flu/about/index.html</a><a href="#fnref48" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn49"><p>In October 2024, H5N1 bird flu was confirmed in a pig on a farm in Crook County, Oregon, the first time the virus had been seen in a pig in the United States. The pig was one of five on a farm already dealing with an H5N1 outbreak in poultry. Over the decades, human seasonal flu viruses have also found their way into pig populations, where they circulate and reassort. <a href="https://www.statnews.com/2024/10/30/h5n1-bird-flu-found-in-oregon-pig-reassortment-threat-human-transmission/">https://www.statnews.com/2024/10/30/h5n1-bird-flu-found-in-oregon-pig-reassortment-threat-human-transmission/</a><a href="#fnref49" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn50"><p>In August 2026, highly pathogenic avian influenza (H5N1) was confirmed at C&amp;T Fenn Farms, a commercial mink farm in Utah, the first documented H5N1 outbreak on a U.S. mink farm. Like ferrets, mink carry both avian-type (α2,3-linked) and human-type (α2,6-linked) sialic acid receptors in their respiratory tracts, making them susceptible to both avian and human influenza viruses and a potential “mixing vessel” for reassortment. <a href="https://virological.org/t/preliminary-report-on-h5n1-highly-pathogenic-avian-influenza-in-utah-mink-august-2026/1050">https://virological.org/t/preliminary-report-on-h5n1-highly-pathogenic-avian-influenza-in-utah-mink-august-2026/1050</a><a href="#fnref50" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn51"><p><a href="https://deepmind.google/science/alphafold/">https://deepmind.google/science/alphafold/</a><a href="#fnref51" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn52"><p><a href="https://arcinstitute.org/tools/evo">https://arcinstitute.org/tools/evo</a><a href="#fnref52" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn53"><p><a href="https://evescape.org/">https://evescape.org/</a><a href="#fnref53" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn54"><p>CRISPR-Cas9 uses a guide RNA to direct the Cas9 nuclease to a matching DNA sequence, where it cuts both strands. The cell’s repair of that break either disrupts the gene (often through small insertions or deletions) or, if a DNA template is supplied, installs a precise change.<a href="#fnref54" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn55"><p>Base editing fuses a Cas9 that cuts only one strand to an enzyme that chemically converts one DNA base into another (C•G to T•A, or A•T to G•C) within a small window. It needs no double strand break and no donor template.<a href="#fnref55" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn56"><p>Prime editing fuses a single-strand-nicking Cas9 to a reverse transcriptase and uses an extended guide RNA (pegRNA) that both finds the target and carries the new sequence, which is written directly into the DNA. It can make all 12 types of single base substitution plus small insertions and deletions, without a double-strand break or donor DNA.<a href="#fnref56" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn57"><p>In November 2026, Nature reported on AutoDNA, an automated laboratory at Shanghai Jiao Tong University in which AI agents design and run experiments with robotic arms and minimal human input. The facility can operate more than 20 types of instrument and complete thousands of operations in a single project, including experiments that synthesize and sequence DNA. <a href="https://www.nature.com/articles/d41586-026-03552-8">https://www.nature.com/articles/d41586-026-03552-8</a><a href="#fnref57" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn58"><p><a href="https://www.rand.org/global-and-emerging-risks/centers/ai-security-and-technology/projects/mirror-life.html">https://www.rand.org/global-and-emerging-risks/centers/ai-security-and-technology/projects/mirror-life.html</a><a href="#fnref58" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn59"><p>Kleinman, Torres, and Wang tested the mirror-image forms of four approved antibiotics (chloramphenicol, linezolid, tedizolid, and aztreonam) against ordinary bacteria, as a stand-in for how the original drugs would act on mirror bacteria. All four mirror-image drugs showed minimal activity against those bacteria, which suggests the original drugs would be ineffective against mirror bacteria. The mirror-image drugs, which by symmetry should work against mirror bacteria, were also well tolerated in short-term toxicity tests in mice, so they could be developed into antibiotics for treating mirror bacterial infections. Separately, vaccines built from mirror-image protein fragments (D-peptides) produced strong antibody responses in mice, suggesting a possible route to vaccines against mirror bacteria. <a href="https://elifesciences.org/reviewed-preprints/109134v1">https://elifesciences.org/reviewed-preprints/109134v1</a><a href="#fnref59" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn60"><p>Stated plainly, the argument is that humanity does not deserve to live, and therefore it would be good if everyone died. Almost nobody actually <em>means</em> that. Press them on it and most will say, “Well, no, that’s not what I mean.” What they are really doing is signaling how much they hate what some humans have done to the planet. They do not truly believe that every single human being does not deserve to live.<a href="#fnref60" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn61"><p>A parasitic infection people catch when they drink stagnant water containing microscopic copepods that have swallowed infectious Guinea worm larvae. About a year later, a long worm emerges painfully through the skin.<a href="#fnref61" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn62"><p>The second law of thermodynamics says entropy, a measure of disorder, tends to increase over time. The universe began in an extremely ordered, low-entropy state and has been drifting toward disorder ever since. Why it started that way is one of the deepest unsolved puzzles in physics.<a href="#fnref62" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</aside>
 
-      </article>
+        </article>
+
+      </div>
 
     </div>
   </div>
 
+  <div class="toc-rail" id="toc-rail" role="navigation" aria-label="Contents">
+    <p class="toc-label">Contents</p>
+    <ul class="toc-list"></ul>
+  </div>
+  <button class="toc-btn toc-float" type="button" data-toc-open aria-controls="toc-sheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h11M4 18h14"/></svg><span>Contents</span></button>
+  <div class="toc-backdrop" data-toc-close></div>
+  <div class="toc-sheet" id="toc-sheet" role="navigation" aria-label="Contents" aria-hidden="true">
+    <div class="toc-sheet-head"><p class="toc-label">Contents</p><button class="toc-close" type="button" data-toc-close>Close</button></div>
+    <ul class="toc-list"></ul>
+  </div>
+
   <footer>
     <span class="footer-text">
-      <a href="../notes.html" style="color: var(--text-dim);">← Writing</a>
+      <a href="../notes.html" style="color: var(--text-dim);">&larr; Writing</a>
     </span>
-    <span class="footer-loop">∞</span>
+    <span class="footer-loop">&infin;</span>
   </footer>
+
+<script>
+/* Theme toggle */
+(function () {
+  'use strict';
+  var root  = document.documentElement;
+  var btn   = document.getElementById('theme-btn');
+  var label = document.getElementById('theme-label');
+  var KEY   = 'acl-theme';
+
+  function systemIsDark() {
+    return !window.matchMedia ||
+           window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function activeIsDark() {
+    var set = root.getAttribute('data-theme');
+    if (set === 'dark')  return true;
+    if (set === 'light') return false;
+    return systemIsDark();
+  }
+  function sync() {
+    var dark = activeIsDark();
+    label.textContent = dark ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  try {
+    var saved = localStorage.getItem(KEY);
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  sync();
+
+  btn.addEventListener('click', function () {
+    var next = activeIsDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    sync();
+  });
+
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function () { if (!root.getAttribute('data-theme')) sync(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+}());
+
+/* Footnote popovers: hover on desktop, tap on touch.
+   Progressive enhancement: with this script absent, every
+   reference stays a jump link to the notes at the foot. */
+(function () {
+  'use strict';
+
+  var GUTTER = 12, HIDE_DELAY = 180, OFFSET = 8;
+
+  var refs = document.querySelectorAll('.essay-body a.footnote-ref');
+  if (!refs.length) return;
+
+  var canHover = !!(window.matchMedia &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  if (!canHover) document.body.classList.add('is-touch');
+
+  var pop = document.createElement('div');
+  pop.className = 'fn-pop';
+  pop.id = 'fn-popover';
+  pop.setAttribute('role', 'tooltip');
+  pop.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(pop);
+
+  var current = null, hideTimer = null;
+
+  function noteHtml(ref) {
+    var href = ref.getAttribute('href') || '';
+    if (href.charAt(0) !== '#') return null;
+    var id;
+    try { id = decodeURIComponent(href.slice(1)); } catch (e) { id = href.slice(1); }
+    var note = id && document.getElementById(id);
+    if (!note) return null;
+
+    var clone = note.cloneNode(true);
+    var backs = clone.querySelectorAll('a.footnote-back, a[role="doc-backlink"]');
+    for (var i = 0; i < backs.length; i++) backs[i].parentNode.removeChild(backs[i]);
+    var links = clone.querySelectorAll('a[href]');
+    for (var j = 0; j < links.length; j++) {
+      links[j].setAttribute('target', '_blank');
+      links[j].setAttribute('rel', 'noopener');
+    }
+    return clone.innerHTML.replace(/\u21A9\uFE0E?/g, '').trim();
+  }
+
+  function place(ref) {
+    var r = ref.getBoundingClientRect();
+    pop.style.left = '0px';
+    pop.style.top  = '0px';
+    var p = pop.getBoundingClientRect();
+
+    var left = r.left + (r.width / 2) - (p.width / 2);
+    var maxLeft = window.innerWidth - p.width - GUTTER;
+    if (left > maxLeft) left = maxLeft;
+    if (left < GUTTER) left = GUTTER;
+
+    var below = r.bottom + OFFSET;
+    var above = r.top - p.height - OFFSET;
+    var fitsBelow = below + p.height + GUTTER <= window.innerHeight;
+    var top = (fitsBelow || above < GUTTER) ? below : above;
+
+    pop.style.left = Math.round(left) + 'px';
+    pop.style.top  = Math.round(top) + 'px';
+  }
+
+  function show(ref) {
+    clearTimeout(hideTimer);
+    var inner = noteHtml(ref);
+    if (inner === null) return;
+
+    if (current && current !== ref) {
+      current.removeAttribute('aria-describedby');
+      current.classList.remove('is-open');
+    }
+
+    var num = (ref.textContent || '').trim();
+    pop.innerHTML =
+      (num ? '<span class="fn-pop-num">Note ' + num + '</span>' : '') + inner +
+      '<button class="fn-pop-close" type="button">Close</button>';
+
+    var closeBtn = pop.querySelector('.fn-pop-close');
+    if (closeBtn) closeBtn.addEventListener('click', hide);
+
+    pop.classList.add('is-visible');
+    pop.setAttribute('aria-hidden', 'false');
+    ref.setAttribute('aria-describedby', pop.id);
+    ref.classList.add('is-open');
+
+    current = ref;
+    place(ref);
+  }
+
+  function hide() {
+    clearTimeout(hideTimer);
+    pop.classList.remove('is-visible');
+    pop.setAttribute('aria-hidden', 'true');
+    if (current) {
+      current.removeAttribute('aria-describedby');
+      current.classList.remove('is-open');
+    }
+    current = null;
+  }
+
+  function hideSoon() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, HIDE_DELAY);
+  }
+
+  Array.prototype.forEach.call(refs, function (ref) {
+    ref.addEventListener('click', function (e) {
+      if (noteHtml(ref) === null) return;
+      e.preventDefault();
+      if (current === ref) hide(); else show(ref);
+    });
+    if (canHover) {
+      ref.addEventListener('mouseenter', function () { show(ref); });
+      ref.addEventListener('mouseleave', hideSoon);
+      ref.addEventListener('focus', function () { show(ref); });
+      ref.addEventListener('blur', hideSoon);
+    }
+  });
+
+  pop.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
+  pop.addEventListener('mouseleave', hideSoon);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && current) { var r = current; hide(); r.focus(); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!current) return;
+    if (pop.contains(e.target) || current.contains(e.target)) return;
+    hide();
+  });
+
+  var ticking = false;
+  function reflow() {
+    if (!current || ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      if (current) place(current);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', reflow, { passive: true });
+  window.addEventListener('resize', reflow);
+}());
+</script>
+
+<script>
+/* Contents: built from the headings, so it follows the draft */
+(function () {
+  'use strict';
+  var body = document.querySelector('.essay-body');
+  if (!body) return;
+  var targets = [];
+  var topEl = document.getElementById('top');
+  if (topEl) targets.push({ el: topEl, text: '\u2191 Top', cls: 'toc-top' });
+  Array.prototype.forEach.call(body.querySelectorAll('h2[id], h3[id]'), function (h) {
+    targets.push({ el: h, text: h.textContent.trim(), cls: h.tagName === 'H3' ? 'toc-sub' : '' });
+  });
+  [['notes', 'Notes'], ['references', 'References']].forEach(function (p, i) {
+    var el = document.getElementById(p[0]);
+    if (el) targets.push({ el: el, text: p[1], cls: 'toc-foot' + (i === 0 ? ' first' : '') });
+  });
+  if (!targets.length) return;
+
+  var lists = document.querySelectorAll('.toc-list');
+  Array.prototype.forEach.call(lists, function (ul) {
+    targets.forEach(function (t) {
+      var li = document.createElement('li');
+      if (t.cls) li.className = t.cls;
+      var a = document.createElement('a');
+      a.href = '#' + t.el.id;
+      a.textContent = t.text;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  });
+
+  var root   = document.documentElement;
+  var sheet  = document.getElementById('toc-sheet');
+  var rail   = document.getElementById('toc-rail');
+  var float  = document.querySelector('.toc-float');
+  var header = document.querySelector('.essay-header');
+  var openers = document.querySelectorAll('[data-toc-open]');
+  var lastOpener = null;
+  sheet.style.setProperty('--toc-count', targets.length);
+
+  function setOpen(open) {
+    root.classList.toggle('toc-open', open);
+    sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
+    Array.prototype.forEach.call(openers, function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+    if (open) {
+      var cur = sheet.querySelector('a.is-current') || sheet.querySelector('a');
+      if (cur) cur.focus({ preventScroll: true });
+      sheet.scrollTop = 0;
+    }
+    else if (lastOpener) lastOpener.focus({ preventScroll: true });
+  }
+  Array.prototype.forEach.call(openers, function (b) {
+    b.addEventListener('click', function () { lastOpener = b; setOpen(true); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-toc-close]'), function (b) {
+    b.addEventListener('click', function () { setOpen(false); });
+  });
+  function go(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (!el) return;
+    e.preventDefault();
+    if (root.classList.contains('toc-open')) {
+      lastOpener = null;
+      root.classList.remove('toc-open');
+      sheet.setAttribute('aria-hidden', 'true');
+      Array.prototype.forEach.call(openers, function (b) { b.setAttribute('aria-expanded', 'false'); });
+    }
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    requestAnimationFrame(function () {
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      try { history.replaceState(null, '', '#' + el.id); } catch (err) {}
+      setTimeout(function () {
+        var off = el.getBoundingClientRect().top;
+        if (Math.abs(off - 24) > 40) el.scrollIntoView({ block: 'start' });
+      }, reduce ? 50 : 1400);
+    });
+  }
+  sheet.addEventListener('click', go);
+  if (rail) rail.addEventListener('click', go);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && root.classList.contains('toc-open')) setOpen(false);
+  });
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var past = header ? header.getBoundingClientRect().bottom < 0 : true;
+    if (float) float.classList.toggle('is-visible', past);
+    if (rail) rail.classList.toggle('is-visible', past);
+    var line = window.innerHeight * 0.3, idx = -1;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i].el.getBoundingClientRect().top <= line) idx = i; else break;
+    }
+    Array.prototype.forEach.call(lists, function (ul) {
+      var links = ul.querySelectorAll('a');
+      for (var j = 0; j < links.length; j++) links[j].classList.toggle('is-current', j === idx);
+    });
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+}());
+</script>
 
 </body>
 </html>
