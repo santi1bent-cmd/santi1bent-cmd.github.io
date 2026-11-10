@@ -136,9 +136,9 @@ nav {
 /* ── Page header ───────────────────────────────────────── */
 
 .page-header {
-  padding: 6rem 0 4rem;
+  padding: 3rem 0 3rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .page-header h1 {
@@ -853,6 +853,11 @@ footer {
 
   .page {
     padding-top: 10rem;
+  }
+
+  .page-header {
+    padding: 1.5rem 0 2rem;
+    margin-bottom: 2rem;
   }
 
   .hero-title {
