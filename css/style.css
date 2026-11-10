@@ -860,6 +860,10 @@ footer {
     margin-bottom: 2rem;
   }
 
+  .about-section .divider {
+    margin: 2rem 0;
+  }
+
   .hero-title {
     font-size: 3rem;
   }
