@@ -1113,10 +1113,19 @@ Shehabi et al., 2024 United States Data Center Energy Usage Report: <a href="htt
       Array.prototype.forEach.call(openers, function (b) { b.setAttribute('aria-expanded', 'false'); });
     }
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isTop = el.id === 'top';
     requestAnimationFrame(function () {
-      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      if (isTop) {
+        window.scrollTo({ top: 0, left: 0, behavior: reduce ? 'auto' : 'smooth' });
+      } else {
+        el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
       try { history.replaceState(null, '', '#' + el.id); } catch (err) {}
       setTimeout(function () {
+        if (isTop) {
+          if (window.scrollY > 2) window.scrollTo({ top: 0, left: 0 });
+          return;
+        }
         var off = el.getBoundingClientRect().top;
         if (Math.abs(off - 24) > 40) el.scrollIntoView({ block: 'start' });
       }, reduce ? 50 : 1400);
