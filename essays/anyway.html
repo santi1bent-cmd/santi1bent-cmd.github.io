@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Anyway — A Curious Loop" />
+  <title>Anyway · A Curious Loop</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap">
+  <script>
+    /* Restore a saved theme before first paint so there is no flash. */
+    try {
+      var saved = localStorage.getItem('acl-theme');
+      if (saved === 'dark' || saved === 'light') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  </script>
+  <style>
+/* Same single-measure, dark-first page as "The Risk We Won't Look At",
+   with a light "paper" counterpart and an explicit toggle. */
+
+:root {
+  --bg:           #0a0a0f;
+  --bg-raised:    #14131c;
+  --text:         #d6d3cc;
+  --text-muted:   #8a8799;
+  --text-dim:     #5a5868;
+  --accent:       #7c9cbf;
+  --accent-dim:   #3d566e;
+  --border:       #1e1d26;
+  --border-light: #28273a;
+  --shadow:       0 18px 48px rgba(0, 0, 0, 0.62);
+
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-body:    'EB Garamond', Georgia, serif;
+  --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 680px;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:           #faf8f4;
+    --bg-raised:    #ffffff;
+    --text:         #22212a;
+    --text-muted:   #57545f;
+    --text-dim:     #857f8d;
+    --accent:       #3a6b94;
+    --accent-dim:   #9fb8cd;
+    --border:       #e4e0d8;
+    --border-light: #d6d1c7;
+    --shadow:       0 18px 44px rgba(32, 28, 44, 0.16);
+    color-scheme: light;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg:           #faf8f4;
+  --bg-raised:    #ffffff;
+  --text:         #22212a;
+  --text-muted:   #57545f;
+  --text-dim:     #857f8d;
+  --accent:       #3a6b94;
+  --accent-dim:   #9fb8cd;
+  --border:       #e4e0d8;
+  --border-light: #d6d1c7;
+  --shadow:       0 18px 44px rgba(32, 28, 44, 0.16);
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}
+
+.wrap { max-width: var(--measure); margin: 0 auto; }
+
+.essay-page { padding-top: 2.5rem; }
+
+/* ── Top bar: back link + theme toggle ────────────────── */
+
+.topbar {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-block: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.back-link {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+.back-link:hover { color: var(--accent); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-btn {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 2px;
+  padding: 0.55rem 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.theme-btn:hover { color: var(--text-muted); border-color: var(--text-dim); }
+.theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-btn svg { width: 15px; height: 15px; display: block; }
+.theme-btn .i-sun  { display: none; }
+.theme-btn .i-moon { display: block; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-btn .i-sun  { display: block; }
+  :root:not([data-theme="dark"]) .theme-btn .i-moon { display: none; }
+}
+:root[data-theme="light"] .theme-btn .i-sun  { display: block; }
+:root[data-theme="light"] .theme-btn .i-moon { display: none; }
+
+/* ── Header ───────────────────────────────────────────── */
+
+.essay-header { padding-block: 0 3rem; }
+
+.essay-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 7vw, 3.1rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+.essay-header-meta {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ── Painting ─────────────────────────────────────────── */
+
+.essay-body figure { margin: 3rem 0; }
+.essay-body figure img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border: 1px solid var(--border-light);
+  opacity: 1; /* show the painting at its true colours in both themes */
+}
+.essay-body figcaption {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+/* ── Dialogue ─────────────────────────────────────────── */
+
+.essay-body .dialogue .turn {
+  margin: 0 0 2rem;
+  color: var(--text);
+}
+
+.essay-body .dialogue .speaker {
+  display: block;
+  font-variant: small-caps;
+  font-size: 0.9em;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* The two closing lines get a longer pause than the gap between exchanges. */
+.essay-body .dialogue .coda {
+  margin-top: 4rem;
+  margin-bottom: 0;
+}
+  </style>
+</head>
+<body>
+
+  <div class="page essay-page">
+    <div class="container">
+
+      <div class="topbar">
+        <a href="../index.html" class="back-link">&larr; A Curious Loop</a>
+        <div class="topbar-right">
+          <button class="theme-btn" id="theme-btn" type="button" aria-live="polite">
+            <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+            <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+            <span id="theme-label">Light</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="wrap">
+
+        <header class="essay-header fade-in">
+          <h1>Anyway</h1>
+          <p class="essay-header-meta">Santi Bent &ensp;&middot;&ensp; November 2026</p>
+        </header>
+
+        <article class="essay-body fade-in fade-in-delay-1">
+
+          <figure>
+            <img src="../images/essays/anyway/light-of-day.jpg" width="1478" height="1176" alt="Oil painting of a starburst sun glowing over a green meadow, where a figure with orange hair lies in the tall grass beside red-trunked trees." decoding="async" />
+            <figcaption>Light of Day — Mason Campbell, oil on canvas, 2026.</figcaption>
+          </figure>
+
+          <div class="dialogue">
+
+            <p class="turn">
+              <span class="speaker">Kid:</span>
+              But why does any of it matter<br>
+              if nothing big really happens?
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Parent:</span>
+              I don’t think it’s supposed to be big.
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Kid:</span>
+              Then what is it supposed to be?
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Parent:</span>
+              Mostly just… regular.<br>
+              The same stuff over and over.
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Kid:</span>
+              That sounds boring.
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Parent:</span>
+              Yeah.<br>
+              But that’s where it actually works.
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Kid:</span>
+              Works how?
+            </p>
+
+            <p class="turn">
+              <span class="speaker">Parent:</span>
+              I don’t know.<br>
+              It just stops feeling like a problem.
+            </p>
+
+            <p class="turn coda">
+              Anyway—<br>
+              I gotta water this plant.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-text">
+      <a href="../notes.html" style="color: var(--text-dim);">&larr; Writing</a>
+    </span>
+    <span class="footer-loop">&infin;</span>
+  </footer>
+
+<script>
+/* Theme toggle */
+(function () {
+  'use strict';
+  var root  = document.documentElement;
+  var btn   = document.getElementById('theme-btn');
+  var label = document.getElementById('theme-label');
+  var KEY   = 'acl-theme';
+
+  function systemIsDark() {
+    return !window.matchMedia ||
+           window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function activeIsDark() {
+    var set = root.getAttribute('data-theme');
+    if (set === 'dark')  return true;
+    if (set === 'light') return false;
+    return systemIsDark();
+  }
+  function sync() {
+    var dark = activeIsDark();
+    label.textContent = dark ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  try {
+    var saved = localStorage.getItem(KEY);
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  sync();
+
+  btn.addEventListener('click', function () {
+    var next = activeIsDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    sync();
+  });
+
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function () { if (!root.getAttribute('data-theme')) sync(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+}());
+</script>
+
+</body>
+</html>
