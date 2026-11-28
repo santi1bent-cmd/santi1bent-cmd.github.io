@@ -326,6 +326,10 @@ nav {
   margin: 3.5rem 0;
 }
 
+.about-section .divider:first-of-type {
+  margin: 2rem 0;
+}
+
 /* ── Quotes ────────────────────────────────────────────── */
 
 .quote-stage {
